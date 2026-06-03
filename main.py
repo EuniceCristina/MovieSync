@@ -1,5 +1,8 @@
 import os
-lista_usuarios = []
+lista_usuarios = {
+      "123" : ["Eunice","email",'123'],
+      
+}
 
 def usuarios():
       global lista_usuarios
@@ -20,7 +23,7 @@ def usuarios():
 ╠══════════════════════════════════════════════════════════╣
 ║ 0 - Cadastrar Usuários                                   ║
 ║ 1 - Listar Usuários                                      ║
-║ 2 - Excluir Usuário                                 ║
+║ 2 - Excluir Usuário                                      ║
 ║ 3 - Editar Usuário                                       ║                                      
 ║ 4 - Voltar                                               ║
 ╚══════════════════════════════════════════════════════════╝
@@ -31,8 +34,9 @@ def usuarios():
                   cpf = input('Digite o cpf do usuario : ')
                   email = input('Digite um email do usuário: ')
                   senha = input('Digite uma senha : ')
-                  usuario = [nome,cpf,email,senha]
-                  lista_usuarios.append(usuario)
+                  pessoa = [nome,email,senha]
+                  lista_usuarios[cpf]=pessoa
+                  
                   print('\nUsuário cadastrado com sucesso!\n')
                   input("Tecle <ENTER> para continuar...")
             elif opcao == 1 :
@@ -44,45 +48,34 @@ def usuarios():
                   print()
                   for usuario in lista_usuarios:
                         print(f'''
-            Nome : {usuario[0]}
-            Email : {usuario[2]}
+            Nome : {lista_usuarios[usuario][0]}
+            Email : {lista_usuarios[usuario][1]}
                               ''')
+                  
+            
+                  
                   input("Tecle <ENTER> para continuar...")
             
             elif opcao == 2:
                   cpf = input('Digite cpf do usuário que deseja excluir: ')
                   encontrado = False
-                  for usuario in lista_usuarios:
-                        if cpf == usuario[1]:
-                              encontrado = True
-                              break
-                  if encontrado:
-                        for usuario in lista_usuarios:
-                              if cpf==usuario[1]:
-                                    lista_usuarios.remove(usuario)
-                                    print('Usuário excluído!\n')
+                  if lista_usuarios[cpf]:
+                        lista_usuarios.pop(cpf)
+                        print('Usuário excluído!\n')
+                 
                   else:
                         print('\nUsuário não encontrado!')
                   input("Tecle <ENTER> para continuar...")
             
             elif opcao == 3:
                   cpf = input('Digite o cpf do usuario que deseja editar: ')
-                  encontrado = False
-                  for usuario in lista_usuarios:
-                        if cpf == usuario[1]:
-                              encontrado = True
-                              break
-                  if encontrado:
+                  if lista_usuarios[cpf]:
                         nome = input('Digite o nome do usuario: ')
-                        nov_cpf = input('Digite o cpf do usuario : ')
                         email = input('Digite um email do usuário: ')
                         senha = input('Digite uma senha : ')
-                        nov_usuario = [nome,nov_cpf,email,senha]
-                        for i in range(len(lista_usuarios)):
-                              if lista_usuarios[i][1] == cpf:
-                                    lista_usuarios[i] = nov_usuario
-                                    print('\nUsuário editado com sucesso!\n')
-                                    break
+                        nov_usuario = [nome,email,senha]
+                        lista_usuarios[cpf] = nov_usuario
+                        print('\nUsuário editado com sucesso!\n')
                         
                         
                         
