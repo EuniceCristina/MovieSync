@@ -209,10 +209,10 @@ def sessoes():
       ╔══════════════════════════════════════════════════════════╗
       ║                       MENU                               ║
       ╠══════════════════════════════════════════════════════════╣
-      ║ 0 - Cadastrar Sessão                                    ║
-      ║ 1 - Listar Sessão Disponivél                              ║
-      ║ 2 - Excluir Sessão                                        ║
-      ║ 3 - Editar Sessão                                         ║                                      
+      ║ 0 - Cadastrar Sessão                                     ║
+      ║ 1 - Listar Sessão Disponivél                             ║
+      ║ 2 - Excluir Sessão                                       ║
+      ║ 3 - Editar Sessão                                        ║                                      
       ║ 4 - Voltar                                               ║
       ╚══════════════════════════════════════════════════════════╝
       """)
@@ -570,10 +570,11 @@ while chave=='S':
 ╠══════════════════════════════════════════════════════════╣
 ║ 0 - Módulo de Usuários                                   ║
 ║ 1 - Módulo de Filmes                                     ║
-║ 2 - Módulo de Ingressos                                  ║
-║ 3 - Módulo de Relatórios                                 ║
-║ 4 - Sobre o Sistema                                      ║
-║ 5 - Sair                                                 ║
+║ 2 - Módulo de Sessões                                    ║
+║ 3 - Módulo de Ingressos                                  ║
+║ 4 - Módulo de Relatórios                                 ║
+║ 5 - Sobre o Sistema                                      ║
+║ 6 - Sair                                                 ║
 ╚══════════════════════════════════════════════════════════╝
 """)
       opcao = int(input('Escolha o módulo que deseja acessar. [0-8] :'))
@@ -600,13 +601,15 @@ while chave=='S':
             filmes()
       
       elif opcao == 2:
-            ingressos()
+            sessoes()
             
       
       elif opcao == 3:
-            relatorios()
+            ingressos()
       
       elif opcao == 4:
+            relatorios()
+      elif opcao==5:
             os.system('cls' if os.name == 'nt' else 'clear')
             print("_"*60)
             print(
@@ -624,8 +627,6 @@ while chave=='S':
                   
                   """)
             input("Tecle <ENTER> para continuar...")
-      elif opcao==5:
-            sessoes()
       else:
             
             print('\nOpção inválida. Tente novamente.\n')
