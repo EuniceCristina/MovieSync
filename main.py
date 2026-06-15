@@ -442,6 +442,7 @@ Edição de Salas 🎞️
                         salas[cod] = nov_sala
                         escrever_arquivo('banco/salas.txt',salas)
                         print('\nSala editada com sucesso!\n')
+                        input("\nTecle <ENTER> para continuar...")
                               
                               
                               
@@ -452,7 +453,7 @@ Edição de Salas 🎞️
                   break
             else:
                   print('\nOpção inválida. Tente novamente.\n')
-            input("\nTecle <ENTER> para continuar...")
+                  input("\nTecle <ENTER> para continuar...")
       
       
 def sessoes():
@@ -504,9 +505,12 @@ Cadastro de Sessão 🎞️
                               hora = input('Digite o horário da sessão: ')
                               
                               data_hj = str(date.today())
-                              sessao = [filme,sala,data,hora,data_hj]
+                              vagas = salas[sala][0]
+                              sessao = [filme,sala,vagas,data,hora,data_hj]
                               lista_sessoes[cod]=sessao
                               escrever_arquivo('banco/sessoes.txt',lista_sessoes)
+                              salas[sala][2] = False
+                              escrever_arquivo('banco/salas.txt',salas)
                                           
                               print('\nSessão cadastrada com sucesso!\n')
                         else:
@@ -529,7 +533,7 @@ Lista de Sessão 🎞️
                   salas = ler_arquivo('banco/salas.txt')
                   filmes = ler_arquivo('banco/filmes.txt')
                   for sessao in sessoes:
-                        dis = salas[sessoes[sessao][1]][0]
+                        dis = sessoes[sessao][2]
                         if dis>0:
                               t = "Assentos disponiveis"
                         else:
@@ -540,8 +544,8 @@ Lista de Sessão 🎞️
 Código          : {sessao}
 Nome do filme   : {filmes[sessoes[sessao][0]][0]}
 Sala            : {sessoes[sessao][1]}
-Data            : {sessoes[sessao][2]}
-Horário         : {sessoes[sessao][3]}
+Data            : {sessoes[sessao][3]}
+Horário         : {sessoes[sessao][4]}
 Disponibilidade : {t}
                               ''')
                         print('_'*60)
@@ -659,6 +663,8 @@ Cadastro de Ingressos 🎟️
                         data_hj = str(date.today())
                         ingresso = [cpf,sessao,valor,tipo,data_hj]
                         ingressos[cod]=ingresso
+                        sessoes[sessao][2] = sessoes[sessao][2] -1
+                        escrever_arquivo('banco/sessoes.txt',sessoes)
                         escrever_arquivo('banco/ingressos.txt',ingressos)
                               
                         print('\nIngresso cadastrado com sucesso!\n')

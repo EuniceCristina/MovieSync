@@ -21,11 +21,11 @@ lista_salas = {
       1 : [12,'2D',True]
 }
 lista_ingressos = { 
-    1 : ['1',1,'12','meia',data]
+    1 : ['1',1,12,'meia',data]
     }
 
 lista_sessoes = {
-      1: [1, 1, '12-12-12', '12h', data]
+      1: [1, 1, 12, '12-12-12', '12h', data]
 }
 escrever_arquivo('usuarios.txt',lista_usuarios)
 escrever_arquivo('filmes.txt',lista_filmes)
