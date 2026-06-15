@@ -1,5 +1,7 @@
 import os
 from datetime import date
+from banco import *
+
 data = str(date.today())
 
 
@@ -14,11 +16,11 @@ def escrever_arquivo(arquivo,usuarios):
       arquivo.write(str(usuarios))
       arquivo.close()
       
-lista_usuarios = ler_arquivo('usuarios.txt')
-lista_filmes = ler_arquivo('filmes.txt')
-lista_salas = ler_arquivo('salas.txt')
-lista_sessoes = ler_arquivo('sessoes.txt')
-lista_ingressos = ler_arquivo('ingressos.txt')
+lista_usuarios = ler_arquivo('banco/usuarios.txt')
+lista_filmes = ler_arquivo('banco/filmes.txt')
+lista_salas = ler_arquivo('banco/salas.txt')
+lista_sessoes = ler_arquivo('banco/sessoes.txt')
+lista_ingressos = ler_arquivo('banco/ingressos.txt')
 
 def usuarios():
       
@@ -45,7 +47,14 @@ def usuarios():
 """)
             opcao = int(input('Digite sua ação: '))
             if opcao == 0:
-                  nome = input('Digite o nome do usuario: ')
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
+                  print(
+                  """
+ Cadastro de Usuários 👤
+                  """)
+                  print("_"*60)
+                  nome = input('\nDigite o nome do usuario: ')
                   cpf = int(input('Digite o cpf do usuario : '))
                   email = input('Digite um email do usuário: ')
                   senha = input('Digite uma senha : ')
@@ -53,40 +62,52 @@ def usuarios():
                   pessoa = [nome,email,senha,data]
                   
                   lista_usuarios[f'{cpf}']=pessoa
-                  escrever_arquivo('usuarios.txt',lista_usuarios)
+                  escrever_arquivo('banco/usuarios.txt',lista_usuarios)
                   
 
                   
                   print('\nUsuário cadastrado com sucesso!\n')
                   input("Tecle <ENTER> para continuar...")
             elif opcao == 1 :
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
                   print(
                   """
-            Lista de usuários
+ Listagem de Usuários 👤
                   """)
                   print("_"*60)
-                  print()
-                  conteudo = ler_arquivo('usuarios.txt')
+                  usuarios = ler_arquivo('banco/usuarios.txt')
                   
-                  for usuario in conteudo:
+                  for usuario in usuarios:
                         print(f'''
-            Nome  : {conteudo[usuario][0]}
-            CPF   : {usuario}
-            Email : {conteudo[usuario][1]}
+{list(usuarios.keys()).index(usuario)+1}°
+
+Nome  : {usuarios[usuario][0]}
+CPF   : {usuario}
+Email : {usuarios[usuario][1]}
                               ''')
+                        print("_"*60)
+                  
                   
             
                   
                   input("Tecle <ENTER> para continuar...")
             
             elif opcao == 2:
-                  usuarios = ler_arquivo('usuarios.txt')
-                  cpf = input('Digite cpf do usuário que deseja excluir: ')
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
+                  print(
+                  """
+ Exclusão de Usuários 👤
+                  """)
+                  print("_"*60)
+                  usuarios = ler_arquivo('banco/usuarios.txt')
+                  cpf = input('\nDigite cpf do usuário que deseja excluir: ')
                   if cpf in usuarios:
                         usuarios.pop(cpf)
-                        escrever_arquivo('usuarios.txt',usuarios)
+                        escrever_arquivo('banco/usuarios.txt',usuarios)
                         
-                        print('Usuário excluído!\n')
+                        print('\nUsuário excluído!\n')
                         
                  
                   else:
@@ -97,8 +118,15 @@ def usuarios():
                   
             
             elif opcao == 3:
-                  cpf = input('Digite o cpf do usuario que deseja editar: ')
-                  usuarios = ler_arquivo('usuarios.txt')
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
+                  print(
+                  """
+ Edição de Usuários 👤
+                  """)
+                  print("_"*60)
+                  cpf = input('\nDigite o cpf do usuario que deseja editar: ')
+                  usuarios = ler_arquivo('banco/usuarios.txt')
                   if cpf in usuarios:
                         nome = input('Digite o nome do usuario: ')
                         email = input('Digite um email do usuário: ')
@@ -106,7 +134,7 @@ def usuarios():
                         
                         nov_usuario = [nome,email,senha,usuarios[cpf][3]]
                         usuarios[f'{cpf}'] = nov_usuario
-                        escrever_arquivo('usuarios.txt',usuarios)
+                        escrever_arquivo('banco/usuarios.txt',usuarios)
                         print('\nUsuário editado com sucesso!\n')
                         
                         
@@ -142,8 +170,15 @@ def filmes():
       """)
             opcao = int(input('Digite sua ação: '))
             if opcao == 0:
-                  nome = input('Digite o nome do seu filme: ')
-                  filmes = ler_arquivo('filmes.txt')
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
+                  print(
+                  """
+Cadastro de Filmes 🎞️
+                  """)
+                  print("_"*60)
+                  nome = input('\nDigite o nome do seu filme: ')
+                  filmes = ler_arquivo('banco/filmes.txt')
                   cod = len(filmes.keys()) + 1
                   generos =['Drama','Terror','Comédia','Ação']
                   print("""
@@ -161,19 +196,21 @@ def filmes():
                   dis = True
                   filme = [nome,genero,dis]
                   lista_filmes[cod]=filme
-                  escrever_arquivo('filmes.txt',lista_filmes)
+                  escrever_arquivo('banco/filmes.txt',lista_filmes)
                         
                   print('\nFilme cadastrado com sucesso!\n')
                   input("Tecle <ENTER> para continuar...")
                   
             elif opcao == 1 :
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
                   print(
                   """
-            Lista de filmes
+Lista de Filmes 🎞️
                   """)
                   print("_"*60)
                   print()
-                  filmes = ler_arquivo('filmes.txt')
+                  filmes = ler_arquivo('banco/filmes.txt')
                   for filme in filmes:
                         dis = lista_filmes[filme][2]
                         if dis:
@@ -182,30 +219,48 @@ def filmes():
                               t = "Indísponivel"
                               
                         print(f'''
-            Nome            : {filmes[filme][0]}
-            Gênero          : {filmes[filme][1]}
-            Disponibilidade : {t}
+
+Código          : {filmes}         
+Nome            : {filmes[filme][0]}
+Gênero          : {filmes[filme][1]}
+Disponibilidade : {t}
                               ''')
+                        print("_"*60)
+            
                         
                   
                         
                   input("Tecle <ENTER> para continuar...")
                   
             elif opcao == 2:
-                  cod = int(input('Digite código do filme que deseja excluir: '))
-                  filmes = ler_arquivo('filmes.txt')
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
+                  print(
+                  """
+Exclusão de Filmes 🎞️
+                  """)
+                  print("_"*60)
+                  cod = int(input('\nDigite código do filme que deseja excluir: '))
+                  filmes = ler_arquivo('banco/filmes.txt')
                   if filmes[cod]:
                         filmes.pop(cod)
-                        escrever_arquivo('filmes.txt',filmes)
-                        print('Filme excluído!\n')
+                        escrever_arquivo('banco/filmes.txt',filmes)
+                        print('\nFilme excluído!\n')
                   
                   else:
                         print('\nFilme não encontrado!')
                   input("Tecle <ENTER> para continuar...")
            
             elif opcao == 3:
-                  cod = int(input('Digite o codígo do filme que deseja editar: '))
-                  filmes = ler_arquivo('filmes.txt')
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
+                  print(
+                  """
+Edicão de Filmes 🎞️
+                  """)
+                  print("_"*60)
+                  cod = int(input('\nDigite o codígo do filme que deseja editar: '))
+                  filmes = ler_arquivo('banco/filmes.txt')
                   if filmes[cod]:
                         nome = input('Digite o nome do filme: ')
                         generos =['Drama','Terror','Comédia','Ação']
@@ -232,7 +287,7 @@ def filmes():
                               dis =  filmes[cod][2]
                         nov_filme = [nome,genero,dis]
                         filmes[cod] = nov_filme
-                        escrever_arquivo('filmes.txt',filmes)
+                        escrever_arquivo('banco/filmes.txt',filmes)
                         print('\nFilme editado com sucesso!\n')
                               
                               
@@ -269,9 +324,16 @@ def salas():
       """)
             opcao = int(input('Digite sua ação: '))
             if opcao == 0:
-                  salas = ler_arquivo('salas.txt')
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
+                  print(
+                  """
+Cadastro de Salas 🎞️
+                  """)
+                  print("_"*60)
+                  salas = ler_arquivo('banco/salas.txt')
                   cod = len(salas.keys()) + 1
-                  capacidade = int(input('Digite a capacidade da sua sala:'))
+                  capacidade = int(input('\nDigite a capacidade da sua sala:'))
                   tipos =['2D','3D','IMAX','VIP']
                   print("""
                         \nEscolha o tipo da sua sala
@@ -288,19 +350,20 @@ def salas():
                   dis = True
                   sala = [capacidade,tipo,dis]
                   lista_salas[cod]=sala
-                  escrever_arquivo('salas.txt',lista_salas)
+                  escrever_arquivo('banco/salas.txt',lista_salas)
                         
                   print('\nSala cadastrada com sucesso!\n')
                   input("Tecle <ENTER> para continuar...")
                   
             elif opcao == 1 :
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
                   print(
                   """
-            Lista de salas
+Lista de Salas 🎞️
                   """)
                   print("_"*60)
-                  print()
-                  salas = ler_arquivo('salas.txt')
+                  salas = ler_arquivo('banco/salas.txt')
                   for sala in salas:
                         dis = salas[sala][2]
                         if dis:
@@ -309,31 +372,48 @@ def salas():
                               t = "Indisponível"
                               
                         print(f'''
-            Código          : {sala}
-            Capacidade      : {salas[sala][0]}
-            Tipo            : {salas[sala][1]}
-            Disponibilidade : {t}
+            
+Código          : {sala}
+Capacidade      : {salas[sala][0]}
+Tipo            : {salas[sala][1]}
+Disponibilidade : {t}
                               ''')
+                        print("_"*60)            
+                        
                         
                   
                         
-                  input("Tecle <ENTER> para continuar...")
+                  input("\nTecle <ENTER> para continuar...")
                   
             elif opcao == 2:
-                  cod = int(input('Digite código do sala que deseja excluir: '))
-                  salas = ler_arquivo('salas.txt')
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
+                  print(
+                  """
+Exclusão de Salas 🎞️
+                  """)
+                  print("_"*60)
+                  cod = int(input('\nDigite código do sala que deseja excluir: '))
+                  salas = ler_arquivo('banco/salas.txt')
                   if salas[cod]:
                         salas.pop(cod)
-                        escrever_arquivo('salas.txt',salas)
-                        print('Sala excluída!\n')
+                        escrever_arquivo('banco/salas.txt',salas)
+                        print('\nSala excluída!\n')
                   
                   else:
                         print('\nSala não encontrado!')
-                  input("Tecle <ENTER> para continuar...")
+                  input("\nTecle <ENTER> para continuar...")
            
             elif opcao == 3:
-                  cod = int(input('Digite o codígo do sala que deseja editar: '))
-                  salas = ler_arquivo('salas.txt')
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
+                  print(
+                  """
+Edição de Salas 🎞️
+                  """)
+                  print("_"*60)
+                  cod = int(input('\nDigite o codígo do sala que deseja editar: '))
+                  salas = ler_arquivo('banco/salas.txt')
                   if salas[cod]:
                         capacidade = int(input('Digite a capacidade da sala: '))
                         tipos =['2D','3D','IMAX','VIP']
@@ -360,8 +440,8 @@ def salas():
                               dis =  salas[cod][2]
                         nov_sala = [capacidade,tipo,dis]
                         salas[cod] = nov_sala
-                        escrever_arquivo('salas.txt',salas)
-                        print('\nsala editada com sucesso!\n')
+                        escrever_arquivo('banco/salas.txt',salas)
+                        print('\nSala editada com sucesso!\n')
                               
                               
                               
@@ -372,7 +452,7 @@ def salas():
                   break
             else:
                   print('\nOpção inválida. Tente novamente.\n')
-                  input("Tecle <ENTER> para continuar...")
+            input("\nTecle <ENTER> para continuar...")
       
       
 def sessoes():
@@ -398,16 +478,23 @@ def sessoes():
       """)
             opcao = int(input('Digite sua ação: '))
             if opcao == 0:
-                  sessoes = ler_arquivo('sessoes.txt')
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
+                  print(
+                        """
+Cadastro de Sessão 🎞️
+                        """)
+                  print("_"*60)
+                  sessoes = ler_arquivo('banco/sessoes.txt')
                   cod = len(sessoes.keys()) + 1
                   print('\nMonte sua sessão!\n\nFilmes disponíveis\n')
-                  filmes = ler_arquivo('filmes.txt')
+                  filmes = ler_arquivo('banco/filmes.txt')
                   for filme in filmes:
                         print(f'Código : {filme}   | Filme : {filmes[filme][0]}')
                   filme = int(input('\nDigite o código do filme da sua sessão: '))
                   if filme in filmes:
                         print('\nSalas disponíveis\n')
-                        salas = ler_arquivo('salas.txt')
+                        salas = ler_arquivo('banco/salas.txt')
                         for sala in salas:
                               print(f'Código : {sala}   | Capacidade : {salas[sala][0]}')
                         sala = int(input('\nDigite o código da sala da sua sessão: '))
@@ -419,26 +506,28 @@ def sessoes():
                               data_hj = str(date.today())
                               sessao = [filme,sala,data,hora,data_hj]
                               lista_sessoes[cod]=sessao
-                              escrever_arquivo('sessoes.txt',lista_sessoes)
+                              escrever_arquivo('banco/sessoes.txt',lista_sessoes)
                                           
                               print('\nSessão cadastrada com sucesso!\n')
                         else:
-                              print('Sala não cadastrada! Tente novamente.')
+                              print('\nSala não cadastrada! Tente novamente.')
                   else:
-                        print('Filme não cadastrado! Tente novamente.')
+                        print('\nFilme não cadastrado! Tente novamente.')
                         
                   input("Tecle <ENTER> para continuar...")
                   
             elif opcao == 1 :
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
                   print(
-                  """
-            Lista de sessões
-                  """)
+                        """
+Lista de Sessão 🎞️
+                        """)
                   print("_"*60)
                   print()
-                  sessoes = ler_arquivo('sessoes.txt')
-                  salas = ler_arquivo('salas.txt')
-                  filmes = ler_arquivo('filmes.txt')
+                  sessoes = ler_arquivo('banco/sessoes.txt')
+                  salas = ler_arquivo('banco/salas.txt')
+                  filmes = ler_arquivo('banco/filmes.txt')
                   for sessao in sessoes:
                         dis = salas[sessoes[sessao][1]][0]
                         if dis>0:
@@ -447,35 +536,51 @@ def sessoes():
                               t = "Esgotada"
                               
                         print(f'''
-            Código          : {sessao}
-            Nome do filme   : {filmes[sessoes[sessao][0]][0]}
-            Sala            : {sessoes[sessao][1]}
-            Data            : {sessoes[sessao][2]}
-            Horário         : {sessoes[sessao][3]}
-            Disponibilidade : {t}
+                              
+Código          : {sessao}
+Nome do filme   : {filmes[sessoes[sessao][0]][0]}
+Sala            : {sessoes[sessao][1]}
+Data            : {sessoes[sessao][2]}
+Horário         : {sessoes[sessao][3]}
+Disponibilidade : {t}
                               ''')
+                        print('_'*60)
                         
                   
                         
                   input("Tecle <ENTER> para continuar...")
                   
             elif opcao == 2:
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
+                  print(
+                        """
+Exclusão de Sessão 🎞️
+                        """)
+                  print("_"*60)
                   cod = int(input('Digite código do sessão que deseja excluir: '))
-                  sessoes = ler_arquivo('sessoes.txt')
+                  sessoes = ler_arquivo('banco/sessoes.txt')
                   if sessoes[cod]:
                         sessoes.pop(cod)
-                        escrever_arquivo('sessoes.txt',sessoes)
-                        print('Sessão excluída!\n')
+                        escrever_arquivo('banco/sessoes.txt',sessoes)
+                        print('\nSessão excluída!\n')
                   
                   else:
                         print('\nSessão não encontrada!')
                   input("Tecle <ENTER> para continuar...")
            
             elif opcao == 3:
-                  cod = int(input('Digite o codígo da sessão que deseja editar: '))
-                  sessoes = ler_arquivo('sessoes.txt')
-                  salas = ler_arquivo('salas.txt')
-                  filmes = ler_arquivo('filmes.txt')
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
+                  print(
+                        """
+Edição de Sessão 🎞️
+                        """)
+                  print("_"*60)
+                  cod = int(input('\nDigite o codígo da sessão que deseja editar: '))
+                  sessoes = ler_arquivo('banco/sessoes.txt')
+                  salas = ler_arquivo('banco/salas.txt')
+                  filmes = ler_arquivo('banco/filmes.txt')
                   print('\nFilmes disponíveis\n')
                   for filme in filmes:
                         print(f'Código : {filme}   | Filme : {filmes[filme][0]}')
@@ -493,7 +598,7 @@ def sessoes():
                               data_hj = str(date.today())
                               sessao = [filme,sala,data,hora,data_hj]
                               sessoes[cod]=sessao
-                              escrever_arquivo('sessoes.txt',sessoes)
+                              escrever_arquivo('banco/sessoes.txt',sessoes)
                                           
                               print('\nSessão editada com sucesso!\n')
                         else:
@@ -530,25 +635,31 @@ def ingressos():
             opcao = int(input('Digite sua ação: '))
             
             if opcao == 0:
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
+                  print(
+                        """
+Cadastro de Ingressos 🎟️
+                        """)
+                  print("_"*60)
                   
-                  print('\nMonte sua sessão!\n')
-                  ingressos = ler_arquivo('ingressos.txt')
+                  ingressos = ler_arquivo('banco/ingressos.txt')
                   cod = len(ingressos.keys())+1
-                  cpf = input('Digite cpf do usuário: ')
-                  ingressos = ler_arquivo('ingressos.txt')
+                  cpf = input('\nDigite cpf do usuário: ')
+                  ingressos = ler_arquivo('banco/ingressos.txt')
                   if cpf in lista_usuarios:
                         print('\nSessões disponíveis\n')
-                        sessoes = ler_arquivo('sessoes.txt')
-                        filmes = ler_arquivo('filmes.txt')
+                        sessoes = ler_arquivo('banco/sessoes.txt')
+                        filmes = ler_arquivo('banco/filmes.txt')
                         for sessao in sessoes:
                              print(f'Código : {sessao}   | Filme : {filmes[sessoes[sessao][0]][0]}')
-                        sessao = int(input('\nDigite o código da sessão que deseja comprar ingresso: ')) 
+                        sessao = int(input('Digite o código da sessão que deseja comprar ingresso: ')) 
                         valor = float(input('Digite o valor do ingresso: '))
                         tipo = input('Digite o tipo do ingresso: ')
                         data_hj = str(date.today())
                         ingresso = [cpf,sessao,valor,tipo,data_hj]
                         ingressos[cod]=ingresso
-                        escrever_arquivo('ingressos.txt',ingressos)
+                        escrever_arquivo('banco/ingressos.txt',ingressos)
                               
                         print('\nIngresso cadastrado com sucesso!\n')
                   else:
@@ -558,45 +669,63 @@ def ingressos():
                   input("Tecle <ENTER> para continuar...")
                         
             elif opcao == 1 :
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
                   print(
-                  """
-            Lista de Ingressos 
-                  """)
+                        """
+Lista de Ingressos 🎟️
+                        """)
                   print("_"*60)
                   print()
-                  ingressos = ler_arquivo('ingressos.txt')
+                  ingressos = ler_arquivo('banco/ingressos.txt')
                   for ingresso in ingressos:
                         print(f'''
-            Usuário : {ingressos[ingresso][0]}
-            Sessão  : {ingressos[ingresso][1]}
-            Valor   : {ingressos[ingresso][2]}
-            Tipo    : {ingressos[ingresso][3]}
-            
-                                    ''')
-                  input("Tecle <ENTER> para continuar...")
+
+Código  : {ingresso}
+Usuário : {ingressos[ingresso][0]}
+Sessão  : {ingressos[ingresso][1]}
+Valor   : {ingressos[ingresso][2]}
+Tipo    : {ingressos[ingresso][3]}
+                                               ''')
+                        print("_"*60)
+                  input("\nTecle <ENTER> para continuar...")
                               
                         
                               
                         
                         
             elif opcao == 2:
-                  cod = int(input('Digite código do ingresso que deseja excluir: '))
-                  ingressos = ler_arquivo('ingressos.txt')
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
+                  print(
+                        """
+Exclusão de Ingressos 🎟️
+                        """)
+                  print("_"*60)
+                  cod = int(input('\nDigite código do ingresso que deseja excluir: '))
+                  ingressos = ler_arquivo('banco/ingressos.txt')
                   if ingressos[cod]:
                         ingressos.pop(cod)
-                        escrever_arquivo('ingressos.txt',ingressos)
-                        print('Ingresso excluído!\n')
+                        escrever_arquivo('banco/ingressos.txt',ingressos)
+                        print('\nIngresso excluído!\n')
                         
                   else:
                         print('\nIngresso não encontrado!')
                   input("Tecle <ENTER> para continuar...")
                         
             elif opcao == 3:
-                  cod = int(input('Digite o codígo do ingresso que deseja editar: '))
-                  ingressos = ler_arquivo('ingressos.txt')
-                  filmes = ler_arquivo('filmes.txt')
+                  os.system('cls' if os.name == 'nt' else 'clear')
+                  print("_"*60)
+                  print(
+                        """
+Edição de Ingressos 🎟️
+                        """)
+                  print("_"*60)
+                  cod = int(input('\nDigite o codígo do ingresso que deseja editar: '))
+                  ingressos = ler_arquivo('banco/ingressos.txt')
+                  filmes = ler_arquivo('banco/filmes.txt')
                   if ingressos[cod]:
-                        cpf = input('Digite o cpf do usuário:')
+                        cpf = input('\nDigite o cpf do usuário:')
                         for sessao in sessoes:
                              print(f'Código : {sessao}   | Filme : {filmes[sessoes[sessao][0]][0]}')
                         sessao = int(input('\nDigite o código da sessão que deseja comprar ingresso: ')) 
@@ -605,7 +734,7 @@ def ingressos():
                         data_hj = str(date.today())
                         ingresso = [cpf,sessao,valor,tipo,data_hj]
                         ingressos[cod]=ingresso
-                        escrever_arquivo('ingressos.txt',ingressos)
+                        escrever_arquivo('banco/ingressos.txt',ingressos)
                               
                         print('\nIngresso editado com sucesso!\n')
                         
@@ -650,7 +779,7 @@ def relatorios():
                   """)
                   print("_"*60)
                   print()
-                  usuarios = ler_arquivo('usuarios.txt')
+                  usuarios = ler_arquivo('banco/usuarios.txt')
                   print(f'Total de usuários cadastrados: {len(usuarios)}')
                   print('\nUsuários cadastrados hoje:')
                   data = str(date.today())
@@ -684,7 +813,7 @@ def relatorios():
                   """)
                   print("_"*60)
                   print()
-                  filmes = ler_arquivo('filmes.txt')
+                  filmes = ler_arquivo('banco/filmes.txt')
                   print(f'Total de filmes cadastrados: {len(filmes.keys())}\n')
                   cartaz, ind,acao,drama,com,terror = 0,0,0,0,0,0
                   for filme in filmes:
@@ -718,7 +847,7 @@ def relatorios():
                   """)
                   print("_"*60)
                   print()
-                  ingressos = ler_arquivo('ingressos.txt')
+                  ingressos = ler_arquivo('banco/ingressos.txt')
                   print(f'Total de ingressos cadastrados: {len(ingressos.keys())}\n')
                   data = str(date.today())
                   cont=0
