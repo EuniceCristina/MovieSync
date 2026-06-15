@@ -1,19 +1,24 @@
 import os
 from datetime import date
-data = date.today()
-lista_usuarios = {
-      0 : ['Eunice','eunice@gmail.com','123',data]
-}
+data = str(date.today())
 
-lista_filmes = {
-      0 : ['Malevola', 'drama' , 'True']
-}
 
-lista_ingressos = {}
+def ler_arquivo(arquivo):
+      arquivo = open(arquivo,'r')
+      usuarios = eval(arquivo.read())
+      arquivo.close()
+      return usuarios
 
-lista_sessoes = {
-      0 : [0,12,'12-12-12','12h','12',data]
-}
+def escrever_arquivo(arquivo,usuarios):
+      arquivo = open(arquivo,'w')
+      arquivo.write(str(usuarios))
+      arquivo.close()
+      
+lista_usuarios = ler_arquivo('usuarios.txt')
+lista_filmes = ler_arquivo('filmes.txt')
+lista_salas = ler_arquivo('salas.txt')
+lista_sessoes = ler_arquivo('sessoes.txt')
+lista_ingressos = ler_arquivo('ingressos.txt')
 
 def usuarios():
       
@@ -44,9 +49,13 @@ def usuarios():
                   cpf = int(input('Digite o cpf do usuario : '))
                   email = input('Digite um email do usuário: ')
                   senha = input('Digite uma senha : ')
-                  data = date.today()
+                  data = str(date.today())
                   pessoa = [nome,email,senha,data]
-                  lista_usuarios[cpf]=pessoa
+                  
+                  lista_usuarios[f'{cpf}']=pessoa
+                  escrever_arquivo('usuarios.txt',lista_usuarios)
+                  
+
                   
                   print('\nUsuário cadastrado com sucesso!\n')
                   input("Tecle <ENTER> para continuar...")
@@ -57,11 +66,13 @@ def usuarios():
                   """)
                   print("_"*60)
                   print()
-                  for usuario in lista_usuarios:
+                  conteudo = ler_arquivo('usuarios.txt')
+                  
+                  for usuario in conteudo:
                         print(f'''
-            Nome  : {lista_usuarios[usuario][0]}
+            Nome  : {conteudo[usuario][0]}
             CPF   : {usuario}
-            Email : {lista_usuarios[usuario][1]}
+            Email : {conteudo[usuario][1]}
                               ''')
                   
             
@@ -69,24 +80,33 @@ def usuarios():
                   input("Tecle <ENTER> para continuar...")
             
             elif opcao == 2:
+                  usuarios = ler_arquivo('usuarios.txt')
                   cpf = input('Digite cpf do usuário que deseja excluir: ')
-                  if cpf in lista_usuarios:
-                        lista_usuarios.pop(cpf)
+                  if cpf in usuarios:
+                        usuarios.pop(cpf)
+                        escrever_arquivo('usuarios.txt',usuarios)
+                        
                         print('Usuário excluído!\n')
+                        
                  
                   else:
                         print('\nUsuário não encontrado!')
+                  
+                  
                   input("Tecle <ENTER> para continuar...")
+                  
             
             elif opcao == 3:
                   cpf = input('Digite o cpf do usuario que deseja editar: ')
-                  if cpf in lista_usuarios:
+                  usuarios = ler_arquivo('usuarios.txt')
+                  if cpf in usuarios:
                         nome = input('Digite o nome do usuario: ')
                         email = input('Digite um email do usuário: ')
                         senha = input('Digite uma senha : ')
                         
-                        nov_usuario = [nome,email,senha,lista_usuarios[cpf][3]]
-                        lista_usuarios[cpf] = nov_usuario
+                        nov_usuario = [nome,email,senha,usuarios[cpf][3]]
+                        usuarios[f'{cpf}'] = nov_usuario
+                        escrever_arquivo('usuarios.txt',usuarios)
                         print('\nUsuário editado com sucesso!\n')
                         
                         
@@ -123,11 +143,25 @@ def filmes():
             opcao = int(input('Digite sua ação: '))
             if opcao == 0:
                   nome = input('Digite o nome do seu filme: ')
-                  cod = len(lista_filmes.keys()) + 1
-                  genero = input('Digite o gênero do seu filme: ')
+                  filmes = ler_arquivo('filmes.txt')
+                  cod = len(filmes.keys()) + 1
+                  generos =['Drama','Terror','Comédia','Ação']
+                  print("""
+                        \nEscolha o genêro do seu filme 
+                        
+0 - Drama
+1 - Terror
+2 - Comédia
+3 - Ação
+                        \n
+                        
+                        """)
+                  opc = int(input('Sua opção: '))
+                  genero = generos[opc]
                   dis = True
                   filme = [nome,genero,dis]
                   lista_filmes[cod]=filme
+                  escrever_arquivo('filmes.txt',lista_filmes)
                         
                   print('\nFilme cadastrado com sucesso!\n')
                   input("Tecle <ENTER> para continuar...")
@@ -139,7 +173,8 @@ def filmes():
                   """)
                   print("_"*60)
                   print()
-                  for filme in lista_filmes:
+                  filmes = ler_arquivo('filmes.txt')
+                  for filme in filmes:
                         dis = lista_filmes[filme][2]
                         if dis:
                               t = "Em cartaz"
@@ -147,8 +182,8 @@ def filmes():
                               t = "Indísponivel"
                               
                         print(f'''
-            Nome            : {lista_filmes[filme][0]}
-            Gênero          : {lista_filmes[filme][1]}
+            Nome            : {filmes[filme][0]}
+            Gênero          : {filmes[filme][1]}
             Disponibilidade : {t}
                               ''')
                         
@@ -157,10 +192,11 @@ def filmes():
                   input("Tecle <ENTER> para continuar...")
                   
             elif opcao == 2:
-                  cod = input('Digite código do filme que deseja excluir: ')
-
-                  if lista_filmes[cod]:
-                        lista_filmes.pop(cod)
+                  cod = int(input('Digite código do filme que deseja excluir: '))
+                  filmes = ler_arquivo('filmes.txt')
+                  if filmes[cod]:
+                        filmes.pop(cod)
+                        escrever_arquivo('filmes.txt',filmes)
                         print('Filme excluído!\n')
                   
                   else:
@@ -168,21 +204,35 @@ def filmes():
                   input("Tecle <ENTER> para continuar...")
            
             elif opcao == 3:
-                  cod = input('Digite o cod do filme que deseja editar: ')
-                  if lista_filmes[cod]:
+                  cod = int(input('Digite o codígo do filme que deseja editar: '))
+                  filmes = ler_arquivo('filmes.txt')
+                  if filmes[cod]:
                         nome = input('Digite o nome do filme: ')
-                        genero = input('Digite o gênero do filme: ')
-                        if lista_filmes[cod][2]:
+                        generos =['Drama','Terror','Comédia','Ação']
+                        print("""
+                              \nEscolha o genêro do seu filme 
+                              
+      0 - Drama
+      1 - Terror
+      2 - Comédia
+      3 - Ação
+                              \n
+                              
+                              """)
+                        opc = int(input('Sua opção: '))
+                        genero = generos[opc]
+                        if filmes[cod][2]:
                               status = 'disponivel'
                         else:
                               status = 'não disponivel'
                         dis = input(f'Seu filme está {status}. Deseja trocar? [S/N] :').upper()
                         if dis=='S':
-                              dis = not lista_filmes[cod][2]
+                              dis = not filmes[cod][2]
                         else:
-                              dis =  lista_filmes[cod][2]
+                              dis =  filmes[cod][2]
                         nov_filme = [nome,genero,dis]
-                        lista_filmes[cod] = nov_filme
+                        filmes[cod] = nov_filme
+                        escrever_arquivo('filmes.txt',filmes)
                         print('\nFilme editado com sucesso!\n')
                               
                               
@@ -195,6 +245,136 @@ def filmes():
             else:
                   print('\nOpção inválida. Tente novamente.\n')
                   input("Tecle <ENTER> para continuar...")
+
+def salas():
+      while True:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print("_"*60)
+            print(
+                  """
+            Módulo de Salas 🎞️
+                  """)
+            print("_"*60)
+            
+            print("""
+      ╔══════════════════════════════════════════════════════════╗
+      ║                       MENU                               ║
+      ╠══════════════════════════════════════════════════════════╣
+      ║ 0 - Cadastrar Salas                                      ║
+      ║ 1 - Listar Salas                                         ║
+      ║ 2 - Excluir Sala                                        ║
+      ║ 3 - Editar Sala                                         ║                                      
+      ║ 4 - Voltar                                               ║
+      ╚══════════════════════════════════════════════════════════╝
+      """)
+            opcao = int(input('Digite sua ação: '))
+            if opcao == 0:
+                  salas = ler_arquivo('salas.txt')
+                  cod = len(salas.keys()) + 1
+                  capacidade = int(input('Digite a capacidade da sua sala:'))
+                  tipos =['2D','3D','IMAX','VIP']
+                  print("""
+                        \nEscolha o tipo da sua sala
+                        
+0 - 2d
+1 - 3D
+2 - IMAX
+3 - VIP
+                        \n
+                        
+                        """)
+                  opc = int(input('Sua opção: '))
+                  tipo = tipos[opc]
+                  dis = True
+                  sala = [capacidade,tipo,dis]
+                  lista_salas[cod]=sala
+                  escrever_arquivo('salas.txt',lista_salas)
+                        
+                  print('\nSala cadastrada com sucesso!\n')
+                  input("Tecle <ENTER> para continuar...")
+                  
+            elif opcao == 1 :
+                  print(
+                  """
+            Lista de salas
+                  """)
+                  print("_"*60)
+                  print()
+                  salas = ler_arquivo('salas.txt')
+                  for sala in salas:
+                        dis = salas[sala][2]
+                        if dis:
+                              t = "Disponível"
+                        else:
+                              t = "Indisponível"
+                              
+                        print(f'''
+            Código          : {sala}
+            Capacidade      : {salas[sala][0]}
+            Tipo            : {salas[sala][1]}
+            Disponibilidade : {t}
+                              ''')
+                        
+                  
+                        
+                  input("Tecle <ENTER> para continuar...")
+                  
+            elif opcao == 2:
+                  cod = int(input('Digite código do sala que deseja excluir: '))
+                  salas = ler_arquivo('salas.txt')
+                  if salas[cod]:
+                        salas.pop(cod)
+                        escrever_arquivo('salas.txt',salas)
+                        print('Sala excluída!\n')
+                  
+                  else:
+                        print('\nSala não encontrado!')
+                  input("Tecle <ENTER> para continuar...")
+           
+            elif opcao == 3:
+                  cod = int(input('Digite o codígo do sala que deseja editar: '))
+                  salas = ler_arquivo('salas.txt')
+                  if salas[cod]:
+                        capacidade = int(input('Digite a capacidade da sala: '))
+                        tipos =['2D','3D','IMAX','VIP']
+                        print("""
+                              \nEscolha o tipo da sua sala
+                              
+      0 - 2d
+      1 - 3D
+      2 - IMAX
+      3 - VIP
+                              
+                              
+                              """)
+                        opc = int(input('Sua opção: '))
+                        tipo = tipos[opc]
+                        if salas[cod][2]:
+                              status = 'disponivel'
+                        else:
+                              status = 'não disponivel'
+                        dis = input(f'Sua sala está {status}. Deseja trocar? [S/N] :').upper()
+                        if dis=='S':
+                              dis = not salas[cod][2]
+                        else:
+                              dis =  salas[cod][2]
+                        nov_sala = [capacidade,tipo,dis]
+                        salas[cod] = nov_sala
+                        escrever_arquivo('salas.txt',salas)
+                        print('\nsala editada com sucesso!\n')
+                              
+                              
+                              
+                  else:
+                        print('\nSala não encontrado!')
+                        input("Tecle <ENTER> para continuar...")
+            elif opcao == 4:
+                  break
+            else:
+                  print('\nOpção inválida. Tente novamente.\n')
+                  input("Tecle <ENTER> para continuar...")
+      
+      
 def sessoes():
        while True:
             os.system('cls' if os.name == 'nt' else 'clear')
@@ -218,21 +398,32 @@ def sessoes():
       """)
             opcao = int(input('Digite sua ação: '))
             if opcao == 0:
-                  cod = len(lista_sessoes.keys()) + 1
+                  sessoes = ler_arquivo('sessoes.txt')
+                  cod = len(sessoes.keys()) + 1
                   print('\nMonte sua sessão!\n\nFilmes disponíveis\n')
-                  for filme in lista_filmes:
-                        print(f'Código : {filme}   | Filme : {lista_filmes[filme][0]}')
+                  filmes = ler_arquivo('filmes.txt')
+                  for filme in filmes:
+                        print(f'Código : {filme}   | Filme : {filmes[filme][0]}')
                   filme = int(input('\nDigite o código do filme da sua sessão: '))
-                  if filme in lista_filmes:
-                        sala = int(input('Digite o código da sala : '))
-                        data = input('Digite a data da sessão: ')
-                        hora = input('Digite o horário da sessão: ')
-                        q_ass = int(input('Digite a quantidade de assentos: '))
-                        data_hj = date.today()
-                        sessao = [filme,sala,data,hora,q_ass,data_hj]
-                        lista_sessoes[cod]=sessao
-                                    
-                        print('\nSessão cadastrada com sucesso!\n')
+                  if filme in filmes:
+                        print('\nSalas disponíveis\n')
+                        salas = ler_arquivo('salas.txt')
+                        for sala in salas:
+                              print(f'Código : {sala}   | Capacidade : {salas[sala][0]}')
+                        sala = int(input('\nDigite o código da sala da sua sessão: '))
+                        if sala in salas:
+                              
+                              data = input('\nDigite a data da sessão: ')
+                              hora = input('Digite o horário da sessão: ')
+                              
+                              data_hj = str(date.today())
+                              sessao = [filme,sala,data,hora,data_hj]
+                              lista_sessoes[cod]=sessao
+                              escrever_arquivo('sessoes.txt',lista_sessoes)
+                                          
+                              print('\nSessão cadastrada com sucesso!\n')
+                        else:
+                              print('Sala não cadastrada! Tente novamente.')
                   else:
                         print('Filme não cadastrado! Tente novamente.')
                         
@@ -245,8 +436,11 @@ def sessoes():
                   """)
                   print("_"*60)
                   print()
-                  for sessao in lista_sessoes:
-                        dis = lista_sessoes[sessao][4]
+                  sessoes = ler_arquivo('sessoes.txt')
+                  salas = ler_arquivo('salas.txt')
+                  filmes = ler_arquivo('filmes.txt')
+                  for sessao in sessoes:
+                        dis = salas[sessoes[sessao][1]][0]
                         if dis>0:
                               t = "Assentos disponiveis"
                         else:
@@ -254,10 +448,10 @@ def sessoes():
                               
                         print(f'''
             Código          : {sessao}
-            Nome do filme   : {lista_filmes[lista_sessoes[sessao][0]][0]}
-            Sala            : {lista_sessoes[sessao][1]}
-            Data            : {lista_sessoes[sessao][2]}
-            Horário         : {lista_sessoes[sessao][3]}
+            Nome do filme   : {filmes[sessoes[sessao][0]][0]}
+            Sala            : {sessoes[sessao][1]}
+            Data            : {sessoes[sessao][2]}
+            Horário         : {sessoes[sessao][3]}
             Disponibilidade : {t}
                               ''')
                         
@@ -266,10 +460,11 @@ def sessoes():
                   input("Tecle <ENTER> para continuar...")
                   
             elif opcao == 2:
-                  cod = input('Digite código do sessão que deseja excluir: ')
-
-                  if lista_sessoes[cod]:
-                        lista_sessoes.pop(cod)
+                  cod = int(input('Digite código do sessão que deseja excluir: '))
+                  sessoes = ler_arquivo('sessoes.txt')
+                  if sessoes[cod]:
+                        sessoes.pop(cod)
+                        escrever_arquivo('sessoes.txt',sessoes)
                         print('Sessão excluída!\n')
                   
                   else:
@@ -277,22 +472,34 @@ def sessoes():
                   input("Tecle <ENTER> para continuar...")
            
             elif opcao == 3:
-                  cod = input('Digite o cod da sessão que deseja editar: ')
-                  if lista_filmes[cod]:
-                        filme = int(input('\nDigite o código do filme da sua sessão: '))
-                        sala = int(input('Digite o código da sala : '))
-                        data = input('Digite a data da sessão: ')
-                        hora = input('Digite o horário da sessão: ')
-                        q_ass = int(input('Digite a quantidade de assentos: '))
-                        data_hj = date.today()
-                        sessao = [filme,sala,data,hora,q_ass,data_hj]
-                        lista_sessoes[cod]=sessao
-                        print('\nSessão editada com sucesso!\n')
+                  cod = int(input('Digite o codígo da sessão que deseja editar: '))
+                  sessoes = ler_arquivo('sessoes.txt')
+                  salas = ler_arquivo('salas.txt')
+                  filmes = ler_arquivo('filmes.txt')
+                  print('\nFilmes disponíveis\n')
+                  for filme in filmes:
+                        print(f'Código : {filme}   | Filme : {filmes[filme][0]}')
+                  filme = int(input('\nDigite o código do filme da sua sessão: '))
+                  if filme in filmes:
+                        print('\nSalas disponíveis\n')
+                        for sala in salas:
+                              print(f'Código : {sala}   | Capacidade : {salas[sala][0]}')
+                        sala = int(input('\nDigite o código da sala da sua sessão: '))
+                        if sala in salas:
                               
+                              data = input('\nDigite a data da sessão: ')
+                              hora = input('Digite o horário da sessão: ')
                               
-                              
+                              data_hj = str(date.today())
+                              sessao = [filme,sala,data,hora,data_hj]
+                              sessoes[cod]=sessao
+                              escrever_arquivo('sessoes.txt',sessoes)
+                                          
+                              print('\nSessão editada com sucesso!\n')
+                        else:
+                              print('Sala não cadastrada! Tente novamente.')
                   else:
-                        print('\nSessão não encontrado!')
+                        print('Filme não cadastrado! Tente novamente.')
                         input("Tecle <ENTER> para continuar...")
             elif opcao == 4:
                   break
@@ -323,20 +530,25 @@ def ingressos():
             opcao = int(input('Digite sua ação: '))
             
             if opcao == 0:
-                  #listar filmes cadastrados e seus codigos
-                  #gerar codigo automatico
-                  #cpf do usuario
-                  cod = len(lista_ingressos.keys())+1
-                  cpf = int(input('Digite cpf do usuário: '))
+                  
+                  print('\nMonte sua sessão!\n')
+                  ingressos = ler_arquivo('ingressos.txt')
+                  cod = len(ingressos.keys())+1
+                  cpf = input('Digite cpf do usuário: ')
+                  ingressos = ler_arquivo('ingressos.txt')
                   if cpf in lista_usuarios:
-                        for sessao in lista_sessoes:
-                             print(f'Código : {sessao}   | Filme : {lista_filmes[lista_sessoes[sessao][0]][0]}')
+                        print('\nSessões disponíveis\n')
+                        sessoes = ler_arquivo('sessoes.txt')
+                        filmes = ler_arquivo('filmes.txt')
+                        for sessao in sessoes:
+                             print(f'Código : {sessao}   | Filme : {filmes[sessoes[sessao][0]][0]}')
                         sessao = int(input('\nDigite o código da sessão que deseja comprar ingresso: ')) 
-                        valor = float(input('digite o valor do ingresso: '))
+                        valor = float(input('Digite o valor do ingresso: '))
                         tipo = input('Digite o tipo do ingresso: ')
-                        data_hj = date.today()
+                        data_hj = str(date.today())
                         ingresso = [cpf,sessao,valor,tipo,data_hj]
-                        lista_ingressos[cod]=ingresso
+                        ingressos[cod]=ingresso
+                        escrever_arquivo('ingressos.txt',ingressos)
                               
                         print('\nIngresso cadastrado com sucesso!\n')
                   else:
@@ -352,12 +564,13 @@ def ingressos():
                   """)
                   print("_"*60)
                   print()
-                  for ingresso in lista_ingressos:
+                  ingressos = ler_arquivo('ingressos.txt')
+                  for ingresso in ingressos:
                         print(f'''
-            Usuário : {lista_ingressos[ingresso][0]}
-            Sessão  : {lista_ingressos[ingresso][1]}
-            Valor   : {lista_ingressos[ingresso][2]}
-            Tipo    : {lista_ingressos[ingresso][3]}
+            Usuário : {ingressos[ingresso][0]}
+            Sessão  : {ingressos[ingresso][1]}
+            Valor   : {ingressos[ingresso][2]}
+            Tipo    : {ingressos[ingresso][3]}
             
                                     ''')
                   input("Tecle <ENTER> para continuar...")
@@ -367,10 +580,11 @@ def ingressos():
                         
                         
             elif opcao == 2:
-                  cod = input('Digite código do ingresso que deseja excluir: ')
-
-                  if lista_ingressos[cod]:
-                        lista_ingressos.pop(cod)
+                  cod = int(input('Digite código do ingresso que deseja excluir: '))
+                  ingressos = ler_arquivo('ingressos.txt')
+                  if ingressos[cod]:
+                        ingressos.pop(cod)
+                        escrever_arquivo('ingressos.txt',ingressos)
                         print('Ingresso excluído!\n')
                         
                   else:
@@ -378,17 +592,20 @@ def ingressos():
                   input("Tecle <ENTER> para continuar...")
                         
             elif opcao == 3:
-                  cod = input('Digite o cod do ingresso que deseja editar: ')
-                  if lista_ingressos[cod]:
+                  cod = int(input('Digite o codígo do ingresso que deseja editar: '))
+                  ingressos = ler_arquivo('ingressos.txt')
+                  filmes = ler_arquivo('filmes.txt')
+                  if ingressos[cod]:
                         cpf = input('Digite o cpf do usuário:')
-                        for sessao in lista_sessoes:
-                             print(f'Código : {sessao}   | Filme : {lista_filmes[lista_sessoes[sessao][0]][0]}')
+                        for sessao in sessoes:
+                             print(f'Código : {sessao}   | Filme : {filmes[sessoes[sessao][0]][0]}')
                         sessao = int(input('\nDigite o código da sessão que deseja comprar ingresso: ')) 
                         valor = float(input('digite o valor do ingresso'))
                         tipo = input('Digite o tipo do ingresso: ')
-                        data_hj = date.today()
+                        data_hj = str(date.today())
                         ingresso = [cpf,sessao,valor,tipo,data_hj]
-                        lista_ingressos[cod]=ingresso
+                        ingressos[cod]=ingresso
+                        escrever_arquivo('ingressos.txt',ingressos)
                               
                         print('\nIngresso editado com sucesso!\n')
                         
@@ -406,106 +623,115 @@ def ingressos():
                   input("Tecle <ENTER> para continuar...")
 
 def relatorios():
-      os.system('cls' if os.name == 'nt' else 'clear')
-      print("_"*60)
-      print(
-            """
-      Módulo de Relatórios 📋 
-            """)
-      print("_"*60)
-      print("""
-╔══════════════════════════════════════════════════════════╗
-║                       MENU                               ║
-╠══════════════════════════════════════════════════════════╣
-║ 0 - Relátorios de Usuários                               ║
-║ 1 - Relatórios de Filmes Em Cartaz                       ║
-║ 2 - Relátorios de Ingressos                              ║                                                                            
-║ 3 - Voltar                                               ║
-╚══════════════════════════════════════════════════════════╝
-""")
-      opcao = int(input('Digite sua ação: '))
-      if opcao==0:
-            print()
-            print(
-            """
-      Relátório de Usuários
-            """)
+      while True:
+            os.system('cls' if os.name == 'nt' else 'clear')
             print("_"*60)
-            print()
-            print(f'Total de usuários cadastrados: {len(lista_usuarios)}')
-            print('\nUsuários cadastrados hoje:')
-            data = date.today()
-            cont = 0
-            for usuario in lista_usuarios:
-                  if lista_usuarios[usuario][3]==data:
-                        cont+=1
-            print(f'\nUsuários cadastrados hoje: {cont}')
-            print()
-            primeiro = list(lista_usuarios.keys())[0]
-            ultimo = list(lista_usuarios.keys())[-1]
-            print(f'''
-            Nome  : {lista_usuarios[primeiro][0]}
-            CPF   : {primeiro}
-            Email : {lista_usuarios[primeiro][1]}
-                              ''')
-            print("\nÚltimo usuário cadastrado: ")
-            print(f'''
-            Nome  : {lista_usuarios[ultimo][0]}
-            CPF   : {ultimo}
-            Email : {lista_usuarios[ultimo][1]}\n
-                              ''')
-      
-      
-      elif opcao == 1:
-            print()
             print(
-            """
-      Relátório de Filmes
-            """)
+                  """
+            Módulo de Relatórios 📋 
+                  """)
             print("_"*60)
-            print()
-            print(f'Total de filmes cadastrados: {len(lista_filmes.keys())}\n')
-            cartaz, ind,acao,drama,com,terror = 0,0,0,0,0,0
-            for filme in lista_filmes:
-                  if lista_filmes[filme][2]:
-                        cartaz +=1
-                  else:
-                        ind +=1
-                  if lista_filmes[filme][1].lower() == 'ação':
-                        acao+=1
-                  elif lista_filmes[filme][1].lower() == 'drama':
-                        drama+=1
-                  elif lista_filmes[filme][1].lower() == 'terror':
-                        terror+=1
-                  elif lista_filmes[filme][1].lower() == 'comédia':
-                        com+=1
-            print(f'Filmes em cartaz    : {cartaz}')
-            print(f'Filmes indisponíveis : {ind} ')
-            print()
-            print('Contagem por gênero ')
-            print(f'Ação    : {acao}')
-            print(f'Drama   : {drama}')
-            print(f'Terror  : {terror}')
-            print(f'Comédia : {com}')
-            print()
-            input("Tecle <ENTER> para continuar...") 
-      elif opcao == 2:
-            print()
-            print(
-            """
-      Relátório de Ingressos
-            """)
-            print("_"*60)
-            print()
-            print(f'Total de ingressos cadastrados: {len(lista_ingressos.keys())}\n')
-            data = date.today()
-            cont=0
-            for ingresso in lista_ingressos:
-                  if lista_ingressos[ingresso][4] == data:
-                        cont+=1
-            print(f'Total de ingressos cadastrados hoje:{cont}\n')
-            input("Tecle <ENTER> para continuar...") 
+            print("""
+      ╔══════════════════════════════════════════════════════════╗
+      ║                       MENU                               ║
+      ╠══════════════════════════════════════════════════════════╣
+      ║ 0 - Relátorios de Usuários                               ║
+      ║ 1 - Relatórios de Filmes Em Cartaz                       ║
+      ║ 2 - Relátorios de Ingressos                              ║                                                                            
+      ║ 3 - Voltar                                               ║
+      ╚══════════════════════════════════════════════════════════╝
+      """)
+            opcao = int(input('Digite sua ação: '))
+            if opcao==0:
+                  print()
+                  print(
+                  """
+            Relátório de Usuários
+                  """)
+                  print("_"*60)
+                  print()
+                  usuarios = ler_arquivo('usuarios.txt')
+                  print(f'Total de usuários cadastrados: {len(usuarios)}')
+                  print('\nUsuários cadastrados hoje:')
+                  data = str(date.today())
+                  cont = 0
+                  for usuario in usuarios:
+                        if usuarios[usuario][3]==data:
+                              cont+=1
+                  print(f'\nUsuários cadastrados hoje: {cont}')
+                  print()
+                  primeiro = list(usuarios.keys())[0]
+                  ultimo = list(usuarios.keys())[-1]
+                  print(f'''
+                  Nome  : {usuarios[primeiro][0]}
+                  CPF   : {primeiro}
+                  Email : {usuarios[primeiro][1]}
+                                    ''')
+                  print("\nÚltimo usuário cadastrado: ")
+                  print(f'''
+                  Nome  : {usuarios[ultimo][0]}
+                  CPF   : {ultimo}
+                  Email : {usuarios[ultimo][1]}\n
+                                    ''')
+                  input("\nTecle <ENTER> para continuar...")
             
+            
+            elif opcao == 1:
+                  print()
+                  print(
+                  """
+            Relátório de Filmes
+                  """)
+                  print("_"*60)
+                  print()
+                  filmes = ler_arquivo('filmes.txt')
+                  print(f'Total de filmes cadastrados: {len(filmes.keys())}\n')
+                  cartaz, ind,acao,drama,com,terror = 0,0,0,0,0,0
+                  for filme in filmes:
+                        if filmes[filme][2]:
+                              cartaz +=1
+                        else:
+                              ind +=1
+                        if filmes[filme][1].lower() == 'ação':
+                              acao+=1
+                        elif filmes[filme][1].lower() == 'drama':
+                              drama+=1
+                        elif filmes[filme][1].lower() == 'terror':
+                              terror+=1
+                        elif filmes[filme][1].lower() == 'comédia':
+                              com+=1
+                  print(f'Filmes em cartaz    : {cartaz}')
+                  print(f'Filmes indisponíveis : {ind} ')
+                  print()
+                  print('Contagem por gênero ')
+                  print(f'Ação    : {acao}')
+                  print(f'Drama   : {drama}')
+                  print(f'Terror  : {terror}')
+                  print(f'Comédia : {com}')
+                  print()
+                  input("Tecle <ENTER> para continuar...") 
+            elif opcao == 2:
+                  print()
+                  print(
+                  """
+            Relátório de Ingressos
+                  """)
+                  print("_"*60)
+                  print()
+                  ingressos = ler_arquivo('ingressos.txt')
+                  print(f'Total de ingressos cadastrados: {len(ingressos.keys())}\n')
+                  data = str(date.today())
+                  cont=0
+                  for ingresso in ingressos:
+                        if ingressos[ingresso][4] == data:
+                              cont+=1
+                  print(f'Total de ingressos cadastrados hoje:{cont}\n')
+                  input("\nTecle <ENTER> para continuar...") 
+            elif opcao == 3:
+                  break
+            else:
+                  print('\nOpção inválida. Tente novamente.\n')
+                  input("Tecle <ENTER> para continuar...")
                   
 
             
@@ -570,17 +796,18 @@ while chave=='S':
 ╠══════════════════════════════════════════════════════════╣
 ║ 0 - Módulo de Usuários                                   ║
 ║ 1 - Módulo de Filmes                                     ║
-║ 2 - Módulo de Sessões                                    ║
-║ 3 - Módulo de Ingressos                                  ║
-║ 4 - Módulo de Relatórios                                 ║
-║ 5 - Sobre o Sistema                                      ║
-║ 6 - Sair                                                 ║
+║ 2 - Módulo de Salas                                      ║
+║ 3 - Módulo de Sessões                                    ║
+║ 4 - Módulo de Ingressos                                  ║
+║ 5 - Módulo de Relatórios                                 ║
+║ 6 - Sobre o Sistema                                      ║
+║ 7 - Sair                                                 ║
 ╚══════════════════════════════════════════════════════════╝
 """)
       opcao = int(input('Escolha o módulo que deseja acessar. [0-8] :'))
       print()
 
-      if opcao == 6:
+      if opcao == 7:
             chave = 'N'
             print('\nAté a próxima.')
             
@@ -601,15 +828,19 @@ while chave=='S':
             filmes()
       
       elif opcao == 2:
+            salas()
+      
+      elif opcao == 3:
             sessoes()
             
       
-      elif opcao == 3:
+      elif opcao == 4:
             ingressos()
       
-      elif opcao == 4:
+      elif opcao == 5:
             relatorios()
-      elif opcao==5:
+            
+      elif opcao==6:
             os.system('cls' if os.name == 'nt' else 'clear')
             print("_"*60)
             print(
