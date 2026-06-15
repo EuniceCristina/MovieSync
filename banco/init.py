@@ -27,9 +27,9 @@ lista_ingressos = {
 lista_sessoes = {
       1: [1, 1, 12, '12-12-12', '12h', data]
 }
-escrever_arquivo('usuarios.txt',lista_usuarios)
-escrever_arquivo('filmes.txt',lista_filmes)
-escrever_arquivo('salas.txt',lista_salas)
-escrever_arquivo('ingressos.txt',lista_ingressos)
-escrever_arquivo('sessoes.txt', lista_sessoes)
+escrever_arquivo('banco/usuarios.txt',lista_usuarios)
+escrever_arquivo('banco/filmes.txt',lista_filmes)
+escrever_arquivo('banco/salas.txt',lista_salas)
+escrever_arquivo('banco/ingressos.txt',lista_ingressos)
+escrever_arquivo('banco/sessoes.txt', lista_sessoes)
 

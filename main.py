@@ -47,6 +47,7 @@ def usuarios():
 """)
             opcao = int(input('Digite sua ação: '))
             if opcao == 0:
+                  usuarios = ler_arquivo('banco/usuarios.txt')
                   os.system('cls' if os.name == 'nt' else 'clear')
                   print("_"*60)
                   print(
@@ -55,18 +56,22 @@ def usuarios():
                   """)
                   print("_"*60)
                   nome = input('\nDigite o nome do usuario: ')
-                  cpf = int(input('Digite o cpf do usuario : '))
-                  email = input('Digite um email do usuário: ')
-                  senha = input('Digite uma senha : ')
-                  data = str(date.today())
-                  pessoa = [nome,email,senha,data]
+                  cpf = input('Digite o cpf do usuario : ')
                   
-                  lista_usuarios[f'{cpf}']=pessoa
-                  escrever_arquivo('banco/usuarios.txt',lista_usuarios)
+                  if cpf in usuarios:
+                        print('Cpf já cadastrado. Tente novamente.')
+                  else:
+                        email = input('Digite um email do usuário: ')
+                        senha = input('Digite uma senha : ')
+                        data = str(date.today())
+                        pessoa = [nome,email,senha,data]
+                        
+                        usuarios[f'{cpf}']=pessoa
+                        escrever_arquivo('banco/usuarios.txt',usuarios)
                   
 
                   
-                  print('\nUsuário cadastrado com sucesso!\n')
+                        print('\nUsuário cadastrado com sucesso!\n')
                   input("Tecle <ENTER> para continuar...")
             elif opcao == 1 :
                   os.system('cls' if os.name == 'nt' else 'clear')
@@ -220,7 +225,7 @@ Lista de Filmes 🎞️
                               
                         print(f'''
 
-Código          : {filmes}         
+Código          : {filme}         
 Nome            : {filmes[filme][0]}
 Gênero          : {filmes[filme][1]}
 Disponibilidade : {t}
@@ -242,12 +247,21 @@ Exclusão de Filmes 🎞️
                   print("_"*60)
                   cod = int(input('\nDigite código do filme que deseja excluir: '))
                   filmes = ler_arquivo('banco/filmes.txt')
-                  if filmes[cod]:
-                        filmes.pop(cod)
-                        escrever_arquivo('banco/filmes.txt',filmes)
-                        print('\nFilme excluído!\n')
+                  sessoes = ler_arquivo('banco/sessoes.txt')
+                  exist = False
+                  try :
+                        if filmes[cod]:
+                              for sessao in sessoes:
+                                    if sessoes[sessao][0]==cod:
+                                          exist = True
+                              if exist:
+                                    print('Filme possui sessões cadastradas.')
+                              else:
+                                    filmes.pop(cod)
+                                    escrever_arquivo('banco/filmes.txt',filmes)
+                                    print('\nFilme excluído!\n')
                   
-                  else:
+                  except:
                         print('\nFilme não encontrado!')
                   input("Tecle <ENTER> para continuar...")
            
@@ -395,13 +409,22 @@ Exclusão de Salas 🎞️
                   print("_"*60)
                   cod = int(input('\nDigite código do sala que deseja excluir: '))
                   salas = ler_arquivo('banco/salas.txt')
-                  if salas[cod]:
-                        salas.pop(cod)
-                        escrever_arquivo('banco/salas.txt',salas)
-                        print('\nSala excluída!\n')
+                  sessoes = ler_arquivo('banco/sessoes.txt')
+                  exist = False
+                  try :
+                        if salas[cod]:
+                              for sessao in sessoes:
+                                    if sessoes[sessao][1]==cod:
+                                          exist = True
+                              if exist:
+                                    print('Sala possui sessões cadastradas.')
+                              else:
+                                    salas.pop(cod)
+                                    escrever_arquivo('banco/salas.txt',salas)
+                                    print('\nSala excluída!\n')
                   
-                  else:
-                        print('\nSala não encontrado!')
+                  except:
+                        print('\nSala não encontrada!')
                   input("\nTecle <ENTER> para continuar...")
            
             elif opcao == 3:
@@ -414,41 +437,42 @@ Edição de Salas 🎞️
                   print("_"*60)
                   cod = int(input('\nDigite o codígo do sala que deseja editar: '))
                   salas = ler_arquivo('banco/salas.txt')
-                  if salas[cod]:
-                        capacidade = int(input('Digite a capacidade da sala: '))
-                        tipos =['2D','3D','IMAX','VIP']
-                        print("""
-                              \nEscolha o tipo da sua sala
+                  try:
+                        if salas[cod]:
+                              capacidade = int(input('Digite a capacidade da sala: '))
+                              tipos =['2D','3D','IMAX','VIP']
+                              print("""
+                                    \nEscolha o tipo da sua sala
+                                    
+            0 - 2d
+            1 - 3D
+            2 - IMAX
+            3 - VIP
+                                    
+                                    
+                                    """)
+                              opc = int(input('Sua opção: '))
+                              tipo = tipos[opc]
+                              if salas[cod][2]:
+                                    status = 'disponivel'
+                              else:
+                                    status = 'não disponivel'
+                              dis = input(f'Sua sala está {status}. Deseja trocar? [S/N] :').upper()
+                              if dis=='S':
+                                    dis = not salas[cod][2]
+                              else:
+                                    dis =  salas[cod][2]
+                              nov_sala = [capacidade,tipo,dis]
+                              salas[cod] = nov_sala
+                              escrever_arquivo('banco/salas.txt',salas)
+                              print('\nSala editada com sucesso!\n')
                               
-      0 - 2d
-      1 - 3D
-      2 - IMAX
-      3 - VIP
-                              
-                              
-                              """)
-                        opc = int(input('Sua opção: '))
-                        tipo = tipos[opc]
-                        if salas[cod][2]:
-                              status = 'disponivel'
-                        else:
-                              status = 'não disponivel'
-                        dis = input(f'Sua sala está {status}. Deseja trocar? [S/N] :').upper()
-                        if dis=='S':
-                              dis = not salas[cod][2]
-                        else:
-                              dis =  salas[cod][2]
-                        nov_sala = [capacidade,tipo,dis]
-                        salas[cod] = nov_sala
-                        escrever_arquivo('banco/salas.txt',salas)
-                        print('\nSala editada com sucesso!\n')
-                        input("\nTecle <ENTER> para continuar...")
                               
                               
                               
-                  else:
+                  except:
                         print('\nSala não encontrado!')
-                        input("Tecle <ENTER> para continuar...")
+                  input("\nTecle <ENTER> para continuar...")
             elif opcao == 4:
                   break
             else:
@@ -497,13 +521,18 @@ Cadastro de Sessão 🎞️
                         print('\nSalas disponíveis\n')
                         salas = ler_arquivo('banco/salas.txt')
                         for sala in salas:
-                              print(f'Código : {sala}   | Capacidade : {salas[sala][0]}')
+                              print(f'Código : {sala}   | Capacidade : {sessoes[sala][2]} ')
                         sala = int(input('\nDigite o código da sala da sua sessão: '))
+                        while True:
+                              if sala in salas and salas[sala][2] ==False:
+                                    print("Sala indispinível. Tente novamente")
+                                    sala = int(input('\nDigite o código da sala da sua sessão: '))
+                              else:
+                                    break
                         if sala in salas:
-                              
                               data = input('\nDigite a data da sessão: ')
                               hora = input('Digite o horário da sessão: ')
-                              
+                                          
                               data_hj = str(date.today())
                               vagas = salas[sala][0]
                               sessao = [filme,sala,vagas,data,hora,data_hj]
@@ -511,14 +540,21 @@ Cadastro de Sessão 🎞️
                               escrever_arquivo('banco/sessoes.txt',lista_sessoes)
                               salas[sala][2] = False
                               escrever_arquivo('banco/salas.txt',salas)
-                                          
+                                                      
                               print('\nSessão cadastrada com sucesso!\n')
+                              input("Tecle <ENTER> para continuar...")
+                              break
+                                    
+                              
+                              
                         else:
                               print('\nSala não cadastrada! Tente novamente.')
+                              input("Tecle <ENTER> para continuar...")
                   else:
                         print('\nFilme não cadastrado! Tente novamente.')
+                        input("Tecle <ENTER> para continuar...")
                         
-                  input("Tecle <ENTER> para continuar...")
+                  
                   
             elif opcao == 1 :
                   os.system('cls' if os.name == 'nt' else 'clear')
@@ -564,12 +600,16 @@ Exclusão de Sessão 🎞️
                   print("_"*60)
                   cod = int(input('Digite código do sessão que deseja excluir: '))
                   sessoes = ler_arquivo('banco/sessoes.txt')
-                  if sessoes[cod]:
-                        sessoes.pop(cod)
-                        escrever_arquivo('banco/sessoes.txt',sessoes)
-                        print('\nSessão excluída!\n')
+                  try:
+                        if sessoes[cod]:
+                              salas = ler_arquivo('banco/salas.txt')
+                              salas[sessoes[cod][1]][2] = True
+                              sessoes.pop(cod)
+                              escrever_arquivo('salas.txt',salas)
+                              escrever_arquivo('banco/sessoes.txt',sessoes)
+                              print('\nSessão excluída!\n')
                   
-                  else:
+                  except:
                         print('\nSessão não encontrada!')
                   input("Tecle <ENTER> para continuar...")
            
@@ -594,19 +634,30 @@ Edição de Sessão 🎞️
                         for sala in salas:
                               print(f'Código : {sala}   | Capacidade : {salas[sala][0]}')
                         sala = int(input('\nDigite o código da sala da sua sessão: '))
+                        while True:
+                              if sala in salas and salas[sala][2] == False and sala!=sessoes[cod][1]:
+                                    print("Sala indispinível. Tente novamente")
+                                    sala = int(input('\nDigite o código da sala da sua sessão: '))
+                              else:
+                                    break
                         if sala in salas:
-                              
                               data = input('\nDigite a data da sessão: ')
                               hora = input('Digite o horário da sessão: ')
-                              
+                                          
                               data_hj = str(date.today())
-                              sessao = [filme,sala,data,hora,data_hj]
+                              vagas = salas[sala][0]
+                              salas[sessoes[cod][1]][2] = True
+                              sessao = [filme,sala,vagas,data,hora,data_hj]
                               sessoes[cod]=sessao
                               escrever_arquivo('banco/sessoes.txt',sessoes)
+                              salas[sala][2] = False
+                              escrever_arquivo('banco/salas.txt',salas)
                                           
                               print('\nSessão editada com sucesso!\n')
+                              input("Tecle <ENTER> para continuar...")
                         else:
                               print('Sala não cadastrada! Tente novamente.')
+                              input("Tecle <ENTER> para continuar...")
                   else:
                         print('Filme não cadastrado! Tente novamente.')
                         input("Tecle <ENTER> para continuar...")
@@ -656,18 +707,25 @@ Cadastro de Ingressos 🎟️
                         sessoes = ler_arquivo('banco/sessoes.txt')
                         filmes = ler_arquivo('banco/filmes.txt')
                         for sessao in sessoes:
-                             print(f'Código : {sessao}   | Filme : {filmes[sessoes[sessao][0]][0]}')
+                             print(f'Código : {sessao}   | Filme : {filmes[sessoes[sessao][0]][0]} |  Vagas : {sessoes[sessao][2]}')
                         sessao = int(input('Digite o código da sessão que deseja comprar ingresso: ')) 
-                        valor = float(input('Digite o valor do ingresso: '))
-                        tipo = input('Digite o tipo do ingresso: ')
-                        data_hj = str(date.today())
-                        ingresso = [cpf,sessao,valor,tipo,data_hj]
-                        ingressos[cod]=ingresso
-                        sessoes[sessao][2] = sessoes[sessao][2] -1
-                        escrever_arquivo('banco/sessoes.txt',sessoes)
-                        escrever_arquivo('banco/ingressos.txt',ingressos)
-                              
-                        print('\nIngresso cadastrado com sucesso!\n')
+                        if sessao in sessoes:
+                              if sessoes[sessao][2]>0:
+                                    
+                                    valor = float(input('Digite o valor do ingresso: '))
+                                    tipo = input('Digite o tipo do ingresso: ')
+                                    data_hj = str(date.today())
+                                    ingresso = [cpf,sessao,valor,tipo,data_hj]
+                                    ingressos[cod]=ingresso
+                                    sessoes[sessao][2] = sessoes[sessao][2] -1
+                                    escrever_arquivo('banco/sessoes.txt',sessoes)
+                                    escrever_arquivo('banco/ingressos.txt',ingressos)
+                                          
+                                    print('\nIngresso cadastrado com sucesso!\n')
+                              else:
+                                    print('Não existem mais vagas para essa sessão. Tente novamente.')
+                        else:
+                              print("Sessão não cadastrada. Tente novamente")
                   else:
                         print("Usuário não cadastrado!Tente novamente")
                         
@@ -710,12 +768,16 @@ Exclusão de Ingressos 🎟️
                   print("_"*60)
                   cod = int(input('\nDigite código do ingresso que deseja excluir: '))
                   ingressos = ler_arquivo('banco/ingressos.txt')
-                  if ingressos[cod]:
-                        ingressos.pop(cod)
-                        escrever_arquivo('banco/ingressos.txt',ingressos)
-                        print('\nIngresso excluído!\n')
-                        
-                  else:
+                  sessoes = ler_arquivo('banco/sessoes.txt')
+                  try:
+                        if ingressos[cod]:
+                              sessoes[ingressos[cod][1]][2]= sessoes[ingressos[cod][1]][2]+1
+                              ingressos.pop(cod)
+                              escrever_arquivo("banco/sessoes.txt",sessoes)
+                              escrever_arquivo('banco/ingressos.txt',ingressos)
+                              print('\nIngresso excluído!\n')
+                              
+                  except:
                         print('\nIngresso não encontrado!')
                   input("Tecle <ENTER> para continuar...")
                         
@@ -734,7 +796,7 @@ Edição de Ingressos 🎟️
                         cpf = input('\nDigite o cpf do usuário:')
                         for sessao in sessoes:
                              print(f'Código : {sessao}   | Filme : {filmes[sessoes[sessao][0]][0]}')
-                        sessao = int(input('\nDigite o código da sessão que deseja comprar ingresso: ')) 
+                        sessao = int(input('\nDigite o código da sessão que deseja comprar ingresso: '))      
                         valor = float(input('digite o valor do ingresso'))
                         tipo = input('Digite o tipo do ingresso: ')
                         data_hj = str(date.today())
