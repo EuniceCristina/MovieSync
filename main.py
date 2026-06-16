@@ -108,9 +108,13 @@ Email : {usuarios[usuario][1]}
                   print("_"*60)
                   usuarios = ler_arquivo('banco/usuarios.txt')
                   cpf = input('\nDigite cpf do usuário que deseja excluir: ')
+                  ingressos = ler_arquivo('banco/ingressos.txt') 
                   if cpf in usuarios:
-                        usuarios.pop(cpf)
-                        escrever_arquivo('banco/usuarios.txt',usuarios)
+                        if cpf in ingressos:
+                              print('\nUsuário possui ingressos comprados.')
+                        else:
+                              usuarios.pop(cpf)
+                              escrever_arquivo('banco/usuarios.txt',usuarios)
                         
                         print('\nUsuário excluído!\n')
                         
@@ -702,7 +706,8 @@ Cadastro de Ingressos 🎟️
                   cod = len(ingressos.keys())+1
                   cpf = input('\nDigite cpf do usuário: ')
                   ingressos = ler_arquivo('banco/ingressos.txt')
-                  if cpf in lista_usuarios:
+                  usuarios = ler_arquivo('banco/usuarios.txt')
+                  if cpf in usuarios:
                         print('\nSessões disponíveis\n')
                         sessoes = ler_arquivo('banco/sessoes.txt')
                         filmes = ler_arquivo('banco/filmes.txt')
@@ -742,12 +747,14 @@ Lista de Ingressos 🎟️
                   print("_"*60)
                   print()
                   ingressos = ler_arquivo('banco/ingressos.txt')
+                  usuarios = ler_arquivo('banco/usuarios.txt')
+                  filmes = ler_arquivo('banco/filmes.txt')
                   for ingresso in ingressos:
                         print(f'''
 
 Código  : {ingresso}
-Usuário : {ingressos[ingresso][0]}
-Sessão  : {ingressos[ingresso][1]}
+Usuário : {usuarios[ingressos[ingresso][0]][0]}
+Sessão  : {ingressos[ingresso][1] }
 Valor   : {ingressos[ingresso][2]}
 Tipo    : {ingressos[ingresso][3]}
                                                ''')
