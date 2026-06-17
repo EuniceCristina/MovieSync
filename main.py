@@ -5,6 +5,7 @@ from banco import *
 data = str(date.today())
 
 
+
 def ler_arquivo(arquivo):
       arquivo = open(arquivo,'r')
       usuarios = eval(arquivo.read())
@@ -57,21 +58,31 @@ def usuarios():
                   print("_"*60)
                   nome = input('\nDigite o nome do usuario: ')
                   cpf = input('Digite o cpf do usuario : ')
+                  if cpf !="":
                   
-                  if cpf in usuarios:
-                        print('Cpf já cadastrado. Tente novamente.')
-                  else:
-                        email = input('Digite um email do usuário: ')
-                        senha = input('Digite uma senha : ')
-                        data = str(date.today())
-                        pessoa = [nome,email,senha,data]
+                        if cpf in usuarios:
+                              print('Cpf já cadastrado. Tente novamente.')
+                        else:
+                              email = input('Digite um email do usuário: ')
+                              valido = False
+                              while valido==False:
+                                    if '@' in email:
+                                          valido = True
+                                    else:
+                                          print("\nFalha. Digite um email válido.")
+                                          email = input('Digite um email do usuário: ')
+                              senha = input('Digite uma senha : ')
+                              data = str(date.today())
+                              pessoa = [nome,email,senha,data]
+                              
+                              usuarios[f'{cpf}']=pessoa
+                              escrever_arquivo('banco/usuarios.txt',usuarios)
                         
-                        usuarios[f'{cpf}']=pessoa
-                        escrever_arquivo('banco/usuarios.txt',usuarios)
-                  
 
-                  
-                        print('\nUsuário cadastrado com sucesso!\n')
+                        
+                              print('\nUsuário cadastrado com sucesso!\n')
+                  else:
+                        print('Inválido. Digite um cpf')
                   input("Tecle <ENTER> para continuar...")
             elif opcao == 1 :
                   os.system('cls' if os.name == 'nt' else 'clear')
@@ -525,7 +536,7 @@ Cadastro de Sessão 🎞️
                         print('\nSalas disponíveis\n')
                         salas = ler_arquivo('banco/salas.txt')
                         for sala in salas:
-                              print(f'Código : {sala}   | Capacidade : {sessoes[sala][2]} ')
+                              print(f'Código : {sala}   | Capacidade : {salas[sala][0]} ')
                         sala = int(input('\nDigite o código da sala da sua sessão: '))
                         while True:
                               if sala in salas and salas[sala][2] ==False:
@@ -534,7 +545,7 @@ Cadastro de Sessão 🎞️
                               else:
                                     break
                         if sala in salas:
-                              data = input('\nDigite a data da sessão: ')
+                              data = input('\nDigite a data da sessão. [00-00-0000] :')
                               hora = input('Digite o horário da sessão: ')
                                           
                               data_hj = str(date.today())
@@ -547,7 +558,7 @@ Cadastro de Sessão 🎞️
                                                       
                               print('\nSessão cadastrada com sucesso!\n')
                               input("Tecle <ENTER> para continuar...")
-                              break
+                              
                                     
                               
                               
@@ -609,7 +620,7 @@ Exclusão de Sessão 🎞️
                               salas = ler_arquivo('banco/salas.txt')
                               salas[sessoes[cod][1]][2] = True
                               sessoes.pop(cod)
-                              escrever_arquivo('salas.txt',salas)
+                              escrever_arquivo('banco/salas.txt',salas)
                               escrever_arquivo('banco/sessoes.txt',sessoes)
                               print('\nSessão excluída!\n')
                   
@@ -645,7 +656,7 @@ Edição de Sessão 🎞️
                               else:
                                     break
                         if sala in salas:
-                              data = input('\nDigite a data da sessão: ')
+                              data = input('\nDigite a data da sessão. [00-00-0000]: ')
                               hora = input('Digite o horário da sessão: ')
                                           
                               data_hj = str(date.today())
@@ -799,6 +810,7 @@ Edição de Ingressos 🎟️
                   cod = int(input('\nDigite o codígo do ingresso que deseja editar: '))
                   ingressos = ler_arquivo('banco/ingressos.txt')
                   filmes = ler_arquivo('banco/filmes.txt')
+                  sessoes = ler_arquivo('banco/sessoes.txt')
                   if ingressos[cod]:
                         cpf = input('\nDigite o cpf do usuário:')
                         for sessao in sessoes:

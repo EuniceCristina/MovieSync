@@ -18,14 +18,14 @@ lista_filmes = {
 }
 
 lista_salas = {
-      1 : [12,'2D',True]
+      1 : [12,'2D',False]
 }
 lista_ingressos = { 
     1 : ['1',1,12,'meia',data]
     }
 
 lista_sessoes = {
-      1: [1, 1, 12, '12-12-12', '12h', data]
+      1: [1, 1, 12, '12-12-2012', '12h', data]
 }
 escrever_arquivo('banco/usuarios.txt',lista_usuarios)
 escrever_arquivo('banco/filmes.txt',lista_filmes)
