@@ -48,25 +48,29 @@ Cadastro de Sessão 🎞️
                         for sala in salas:
                               print(f'Código : {sala}   | Capacidade : {salas[sala][0]} ')
                         sala = int(input('\nDigite o código da sala da sua sessão: '))
-                        while True:
-                              if sala in salas and salas[sala][2] ==False:
-                                    print("Sala indispinível. Tente novamente")
-                                    sala = int(input('\nDigite o código da sala da sua sessão: '))
-                              else:
-                                    break
+                        
                         if sala in salas:
                               data = input('\nDigite a data da sessão. [00-00-0000] :')
-                              hora = input('Digite o horário da sessão: ')
-                                          
-                              data_hj = str(date.today())
-                              vagas = salas[sala][0]
-                              sessao = [filme,sala,vagas,data,hora,data_hj]
-                              sessoes[cod]=sessao
-                              escrever_arquivo('banco/sessoes.txt',sessoes)
-                              salas[sala][2] = False
-                              escrever_arquivo('banco/salas.txt',salas)
-                                                      
-                              print('\nSessão cadastrada com sucesso!\n')
+                              inicio = float(input('Digite o horário da sessão:'))
+                              duração = float(input("Digite a duração da sessão: (em horas) "))
+                              termino = inicio + duração
+                              dis = True
+                              for sessao in sessoes:
+                                    if inicio<=sessoes[sessao][5] and termino>=sessoes[sessao][4] and sala==sessoes[sessao][1] and sessoes[sessao][3]==data:
+                                          dis = False
+                                          break
+                              
+                              if dis:
+                                    data_hj = str(date.today())
+                                    vagas = salas[sala][0]
+                                    sessao = [filme,sala,vagas,data,inicio,termino,data_hj]
+                                    sessoes[cod]=sessao
+                                    escrever_arquivo('banco/sessoes.txt',sessoes)
+                                    escrever_arquivo('banco/salas.txt',salas)
+                                                            
+                                    print('\nSessão cadastrada com sucesso!\n')
+                              else:
+                                    print("Sala indispinível. Tente novamente")
                               input("Tecle <ENTER> para continuar...")
                               
                                     
@@ -167,19 +171,16 @@ Edição de Sessão 🎞️
                                     else:
                                           break
                               if sala in salas:
-                                    data = input('\nDigite a data da sessão. [00-00-0000]: ')
-                                    hora = input('Digite o horário da sessão: ')
-                                                
+                                    data = input('\nDigite a data da sessão. [00-00-0000] :')
+                                    inicio = float(input('Digite o horário da sessão:'))
+                                    duração = float(input("Digite a duração da sessão: (em horas) "))
+                                    termino = inicio + duração
                                     data_hj = str(date.today())
                                     vagas = salas[sala][0]
-                                    salas[sessoes[cod][1]][2] = True
-                                    sessao = [filme,sala,vagas,data,hora,data_hj]
+                                    sessao = [filme,sala,vagas,data,duração,termino,data_hj]
                                     sessoes[cod]=sessao
                                     escrever_arquivo('banco/sessoes.txt',sessoes)
-                                    salas[sala][2] = False
                                     escrever_arquivo('banco/salas.txt',salas)
-                                                
-                                    print('\nSessão editada com sucesso!\n')
                                     
                               else:
                                     print('Sala não cadastrada! Tente novamente.')

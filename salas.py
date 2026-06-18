@@ -52,8 +52,7 @@ Cadastro de Salas 🎞️
                         """)
                   opc = int(input('Sua opção: '))
                   tipo = tipos[opc]
-                  dis = True
-                  sala = [capacidade,tipo,dis]
+                  sala = [capacidade,tipo]
                   salas[cod]=sala
                   escrever_arquivo('banco/salas.txt',salas)
                         
@@ -70,18 +69,13 @@ Lista de Salas 🎞️
                   print("_"*60)
                   salas = ler_arquivo('banco/salas.txt')
                   for sala in salas:
-                        dis = salas[sala][2]
-                        if dis:
-                              t = "Disponível"
-                        else:
-                              t = "Indisponível"
+                        
                               
                         print(f'''
             
 Código          : {sala}
 Capacidade      : {salas[sala][0]}
 Tipo            : {salas[sala][1]}
-Disponibilidade : {t}
                               ''')
                         print("_"*60)            
                         
@@ -144,16 +138,7 @@ Edição de Salas 🎞️
                                     """)
                               opc = int(input('Sua opção: '))
                               tipo = tipos[opc]
-                              if salas[cod][2]:
-                                    status = 'disponivel'
-                              else:
-                                    status = 'não disponivel'
-                              dis = input(f'Sua sala está {status}. Deseja trocar? [S/N] :').upper()
-                              if dis=='S':
-                                    dis = not salas[cod][2]
-                              else:
-                                    dis =  salas[cod][2]
-                              nov_sala = [capacidade,tipo,dis]
+                              nov_sala = [capacidade,tipo]
                               salas[cod] = nov_sala
                               escrever_arquivo('banco/salas.txt',salas)
                               print('\nSala editada com sucesso!\n')

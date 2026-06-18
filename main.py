@@ -11,7 +11,7 @@ from sessoes import sessoes
 from ingressos import ingressos
 from relatorios import relatorios
 
-#disponibilidade na sessão
+
 #valor do ingresso pre definido
 #relatorios : abre e mostra, pesquisa com filtros, filtros, interligação
 
