@@ -2,6 +2,8 @@ import os
 from datetime import date
 from banco import *
 
+#listagem, filtar pro status
+
 data = str(date.today())
 from config import ler_arquivo,escrever_arquivo
 

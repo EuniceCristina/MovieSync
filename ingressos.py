@@ -48,15 +48,15 @@ Cadastro de Ingressos 🎟️
                         sessoes = ler_arquivo('banco/sessoes.txt')
                         filmes = ler_arquivo('banco/filmes.txt')
                         for sessao in sessoes:
-                             print(f'Código : {sessao}   | Filme : {filmes[sessoes[sessao][0]][0]} |  Vagas : {sessoes[sessao][2]}')
+                             print(f'Código : {sessao}   | Filme : {filmes[sessoes[sessao][0]][0]} | Valor : {sessoes[sessao][6]}  Vagas : {sessoes[sessao][2]}')
                         sessao = int(input('Digite o código da sessão que deseja comprar ingresso: ')) 
                         if sessao in sessoes:
                               if sessoes[sessao][2]>0:
                                     
-                                    valor = float(input('Digite o valor do ingresso: '))
+                                    
                                     tipo = input('Digite o tipo do ingresso: ')
                                     data_hj = str(date.today())
-                                    ingresso = [cpf,sessao,valor,tipo,data_hj]
+                                    ingresso = [cpf,sessao,tipo,data_hj]
                                     ingressos[cod]=ingresso
                                     sessoes[sessao][2] = sessoes[sessao][2] -1
                                     escrever_arquivo('banco/sessoes.txt',sessoes)
@@ -91,8 +91,7 @@ Lista de Ingressos 🎟️
 Código  : {ingresso}
 Usuário : {usuarios[ingressos[ingresso][0]][0]}
 Sessão  : {ingressos[ingresso][1] }
-Valor   : {ingressos[ingresso][2]}
-Tipo    : {ingressos[ingresso][3]}
+Tipo    : {ingressos[ingresso][2]}
                                                ''')
                         print("_"*60)
                   input("\nTecle <ENTER> para continuar...")
@@ -139,12 +138,11 @@ Edição de Ingressos 🎟️
                   if cod in ingressos:
                         cpf = input('\nDigite o cpf do usuário:')
                         for sessao in sessoes:
-                             print(f'Código : {sessao}   | Filme : {filmes[sessoes[sessao][0]][0]}')
+                              print(f'Código : {sessao}   | Filme : {filmes[sessoes[sessao][0]][0]} | Valor : {sessoes[sessao][6]}  Vagas : {sessoes[sessao][2]}')
                         sessao = int(input('\nDigite o código da sessão que deseja comprar ingresso: '))      
-                        valor = float(input('digite o valor do ingresso'))
                         tipo = input('Digite o tipo do ingresso: ')
                         data_hj = str(date.today())
-                        ingresso = [cpf,sessao,valor,tipo,data_hj]
+                        ingresso = [cpf,sessao,tipo,data_hj]
                         ingressos[cod]=ingresso
                         escrever_arquivo('banco/ingressos.txt',ingressos)
                               

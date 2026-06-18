@@ -53,6 +53,7 @@ Cadastro de Sessão 🎞️
                               data = input('\nDigite a data da sessão. [00-00-0000] :')
                               inicio = float(input('Digite o horário da sessão:'))
                               duração = float(input("Digite a duração da sessão: (em horas) "))
+                              valor = float(input('Digite o valor da sessão: '))
                               termino = inicio + duração
                               dis = True
                               for sessao in sessoes:
@@ -63,7 +64,7 @@ Cadastro de Sessão 🎞️
                               if dis:
                                     data_hj = str(date.today())
                                     vagas = salas[sala][0]
-                                    sessao = [filme,sala,vagas,data,inicio,termino,data_hj]
+                                    sessao = [filme,sala,vagas,data,inicio,termino,valor,data_hj]
                                     sessoes[cod]=sessao
                                     escrever_arquivo('banco/sessoes.txt',sessoes)
                                     escrever_arquivo('banco/salas.txt',salas)
@@ -111,6 +112,7 @@ Nome do filme   : {filmes[sessoes[sessao][0]][0]}
 Sala            : {sessoes[sessao][1]}
 Data            : {sessoes[sessao][3]}
 Horário         : {sessoes[sessao][4]}
+Valor           : {sessoes[sessao][6]}R$
 Disponibilidade : {t}
                               ''')
                         print('_'*60)
@@ -174,10 +176,11 @@ Edição de Sessão 🎞️
                                     data = input('\nDigite a data da sessão. [00-00-0000] :')
                                     inicio = float(input('Digite o horário da sessão:'))
                                     duração = float(input("Digite a duração da sessão: (em horas) "))
+                                    valor = float(input('Digite o valor da sessão: '))
                                     termino = inicio + duração
                                     data_hj = str(date.today())
                                     vagas = salas[sala][0]
-                                    sessao = [filme,sala,vagas,data,duração,termino,data_hj]
+                                    sessao = [filme,sala,vagas,data,inicio,termino,valor,data_hj]
                                     sessoes[cod]=sessao
                                     escrever_arquivo('banco/sessoes.txt',sessoes)
                                     escrever_arquivo('banco/salas.txt',salas)
