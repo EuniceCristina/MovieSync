@@ -8,7 +8,7 @@ def escrever_arquivo(arquivo,usuarios):
 
 
 lista_usuarios = {
-      '1' : ['Eunice','eunice@gmail.com','123',data] 
+      '1' : ['Eunice','eunice@gmail.com','123',True,data] 
 }
 
 

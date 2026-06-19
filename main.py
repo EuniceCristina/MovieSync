@@ -58,13 +58,6 @@ while chave=='S':
             
       
       elif opcao == 0:
-            os.system('cls' if os.name == 'nt' else 'clear')
-            print("_"*60)
-            print(
-            """
-      Módulo de Usuários
-            """)
-            print("_"*60)
             
             usuarios()
             

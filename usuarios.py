@@ -55,7 +55,7 @@ def usuarios():
                                           email = input('Digite um email do usuário: ')
                               senha = input('Digite uma senha : ')
                               data = str(date.today())
-                              pessoa = [nome,email,senha,data]
+                              pessoa = [nome,email,senha,True,data]
                               
                               usuarios[f'{cpf}']=pessoa
                               escrever_arquivo('banco/usuarios.txt',usuarios)
@@ -77,12 +77,17 @@ def usuarios():
                   usuarios = ler_arquivo('banco/usuarios.txt')
                   
                   for usuario in usuarios:
+                        if usuarios[usuario][3]:
+                              dis = 'Ativo'
+                        else:
+                              dis = 'Inativo'
                         print(f'''
 {list(usuarios.keys()).index(usuario)+1}°
 
 Nome  : {usuarios[usuario][0]}
 CPF   : {usuario}
 Email : {usuarios[usuario][1]}
+Status: {dis}
                               ''')
                         print("_"*60)
                   
@@ -101,7 +106,7 @@ Email : {usuarios[usuario][1]}
                   print("_"*60)
                   usuarios = ler_arquivo('banco/usuarios.txt')
                   cpf = input('\nDigite cpf do usuário que deseja excluir: ')
-                  ingressos = ler_arquivo('banco/ingressos.txt') 
+                  ingressos = ler_arquivo('banco/ingressos.txt')
                   if cpf in usuarios:
                         if cpf in ingressos:
                               print('\nUsuário possui ingressos comprados.')
@@ -133,8 +138,16 @@ Email : {usuarios[usuario][1]}
                         nome = input('Digite o nome do usuario: ')
                         email = input('Digite um email do usuário: ')
                         senha = input('Digite uma senha : ')
+                        estado = usuarios[cpf][3]
+                        if estado:
+                              dis = 'ativo'
+                        else:
+                              dis = 'inativo'
+                        status = input(f'Seu usuário esta {dis}. Deseja mudar status? [S/N] ').upper()
+                        if status == 'S':
+                              s = not estado
                         
-                        nov_usuario = [nome,email,senha,usuarios[cpf][3]]
+                        nov_usuario = [nome,email,senha,s,usuarios[cpf][4]]
                         usuarios[f'{cpf}'] = nov_usuario
                         escrever_arquivo('banco/usuarios.txt',usuarios)
                         print('\nUsuário editado com sucesso!\n')

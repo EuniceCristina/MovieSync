@@ -21,8 +21,8 @@ def salas():
       ╠══════════════════════════════════════════════════════════╣
       ║ 0 - Cadastrar Salas                                      ║
       ║ 1 - Listar Salas                                         ║
-      ║ 2 - Excluir Sala                                        ║
-      ║ 3 - Editar Sala                                         ║                                      
+      ║ 2 - Excluir Sala                                         ║
+      ║ 3 - Editar Sala                                          ║                                      
       ║ 4 - Voltar                                               ║
       ╚══════════════════════════════════════════════════════════╝
       """)
