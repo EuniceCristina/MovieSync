@@ -3,7 +3,7 @@ from datetime import date
 from banco import *
 
 data = str(date.today())
-from config import ler_arquivo,escrever_arquivo
+from config import ler_arquivo,escrever_arquivo, validar_cpf
 
 def usuarios():
       
@@ -40,7 +40,9 @@ def usuarios():
                   print("_"*60)
                   nome = input('\nDigite o nome do usuario: ')
                   cpf = input('Digite o cpf do usuario : ')
-                  if cpf !="":
+                  validacao = validar_cpf(cpf)
+                  #dividir logo
+                  if validacao:
                   
                         if cpf in usuarios:
                               print('Cpf já cadastrado. Tente novamente.')

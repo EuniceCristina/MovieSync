@@ -10,7 +10,7 @@ def escrever_arquivo(arquivo,usuarios):
       arquivo.write(str(usuarios))
       arquivo.close()
       
-def validaCPF(cpf):
+def validar_cpf(cpf):
       cpf = cpf.replace('.', '')
       cpf = cpf.replace('-', '')
       cpf = cpf.replace(' ', '')
