@@ -98,7 +98,7 @@ Cancelamento de Filmes 🎞️
                   cod = int(input('\nDigite código do filme que deseja excluir: '))
                   filmes = ler_arquivo('banco/filmes.txt')
                   sessoes = ler_arquivo('banco/sessoes.txt')
-                  if filmes[cod]:
+                  if cod in filmes:
                         filmes[cod][2] = False
                         escrever_arquivo('banco/filmes.txt',filmes)
                         print('\nFilme cancelado!\n')

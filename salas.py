@@ -100,7 +100,7 @@ Cancelamento de Salas 🎞️
                   sessoes = ler_arquivo('banco/sessoes.txt')
                   
                   if salas[cod]:
-                        salas[sala][2]=False
+                        salas[cod][2]=False
                         escrever_arquivo('banco/salas.txt',salas)
                         print('\nSala cancelada!\n')
                   
@@ -134,7 +134,7 @@ Edição de Salas 🎞️
                                     """)
                               opc = int(input('Sua opção: '))
                               tipo = tipos[opc]
-                              status = salas[sala][2]
+                              status = salas[cod][2]
                               nov_sala = [capacidade,tipo,status]
                               salas[cod] = nov_sala
                               escrever_arquivo('banco/salas.txt',salas)

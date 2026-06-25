@@ -124,7 +124,7 @@ Status: {status}
                   """)
                   print("_"*60)
                   cpf = input('\nDigite o cpf do usuario que deseja editar: ')
-                  cpf 
+                  cpf = formatar_cpf(cpf)
                   usuarios = ler_arquivo('banco/usuarios.txt')
                   if cpf in usuarios:
                         nome = input('Digite o nome do usuario: ')
@@ -136,10 +136,11 @@ Status: {status}
                         else:
                               dis = 'inativo'
                         status = input(f'Seu usuário esta {dis}. Deseja mudar status? [S/N] ').upper()
-                        if status == 'S':
-                              s = not estado
                         
-                        nov_usuario = [nome,email,senha,s,usuarios[cpf][4]]
+                        if status == 'S':
+                              estado = not estado
+                        
+                        nov_usuario = [nome,email,senha,estado,usuarios[cpf][4]]
                         usuarios[f'{cpf}'] = nov_usuario
                         escrever_arquivo('banco/usuarios.txt',usuarios)
                         print('\nUsuário editado com sucesso!\n')

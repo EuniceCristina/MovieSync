@@ -58,11 +58,11 @@ Cadastro de Ingressos 🎟️
                               if sessao in sessoes and sessoes[sessao][7]:
                                     if sessoes[sessao][2]>0:
                                           
-                                          valor = float(input('Digite o valor do ingresso: '))
+            
                                           tipo = input('Digite o tipo do ingresso: ')
                                           status = True 
                                           data_hj = str(date.today())
-                                          ingresso = [cpf,sessao,tipo,valor,status,data_hj]
+                                          ingresso = [cpf,sessao,tipo,status,data_hj]
                                           ingressos[cod]=ingresso
                                           sessoes[sessao][2] = sessoes[sessao][2] -1
                                           escrever_arquivo('banco/sessoes.txt',sessoes)
@@ -93,13 +93,12 @@ Lista de Ingressos 🎟️
                   usuarios = ler_arquivo('banco/usuarios.txt')
                   filmes = ler_arquivo('banco/filmes.txt')
                   for ingresso in ingressos:
-                        status = definir_status(ingressos[ingresso][4])
+                        status = definir_status(ingressos[ingresso][3])
                         print(f'''
 
 Código  : {ingresso}
 Usuário : {usuarios[ingressos[ingresso][0]][0]}
 Sessão  : {ingressos[ingresso][1] }
-Valor   : {ingressos[ingresso][3]}
 Tipo    : {ingressos[ingresso][2]}
 Status  : {status}
 
@@ -124,7 +123,7 @@ Cancelamento de Ingressos 🎟️
                   sessoes = ler_arquivo('banco/sessoes.txt')
                   if cod in ingressos:
                         sessoes[ingressos[cod][1]][2]= sessoes[ingressos[cod][1]][2]+1
-                        ingressos[ingresso][4]=False
+                        ingressos[cod][3]=False
                         escrever_arquivo("banco/sessoes.txt",sessoes)
                         escrever_arquivo('banco/ingressos.txt',ingressos)
                         print('\nIngresso cancelado!\n')
@@ -162,11 +161,11 @@ Edição de Ingressos 🎟️
                                     if sessao in sessoes and sessoes[sessao][7]:
                                           if sessoes[sessao][2]>0:
                                                 
-                                                valor = float(input('Digite o valor do ingresso: '))
+                  
                                                 tipo = input('Digite o tipo do ingresso: ')
                                                 status = True 
                                                 data_hj = str(date.today())
-                                                ingresso = [cpf,sessao,tipo,valor,status,data_hj]
+                                                ingresso = [cpf,sessao,tipo,status,data_hj]
                                                 sessoes[ingressos[cod][1]][2] = sessoes[ingressos[cod][1]][2] + 1
                                                 ingressos[cod]=ingresso
                                                 sessoes[sessao][2] = sessoes[sessao][2] -1
