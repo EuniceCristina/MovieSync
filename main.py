@@ -11,7 +11,7 @@ from sessoes import sessoes
 from ingressos import ingressos
 from relatorios import relatorios
 
-#relatorios : abre e mostra, pesquisa com filtros, filtros, interligação
+#status de salas e ingressos, terminar relatorios
 
 
 chave = 'S'

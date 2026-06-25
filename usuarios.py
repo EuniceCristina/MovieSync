@@ -3,7 +3,7 @@ from datetime import date
 from banco import *
 
 data = str(date.today())
-from config import ler_arquivo,escrever_arquivo, validar_cpf
+from config import ler_arquivo,escrever_arquivo, validar_cpf, formatar_cpf, validar_email, definir_status
 
 def usuarios():
       
@@ -13,7 +13,7 @@ def usuarios():
             print("_"*60)
             print(
                   """
-      Módulo de Usuários 👤
+Módulo de Usuários 👤
                   """)
             print("_"*60)
             
@@ -23,7 +23,7 @@ def usuarios():
 ╠══════════════════════════════════════════════════════════╣
 ║ 0 - Cadastrar Usuários                                   ║
 ║ 1 - Listar Usuários                                      ║
-║ 2 - Excluir Usuário                                      ║
+║ 2 - Cancelar Usuário                                     ║
 ║ 3 - Editar Usuário                                       ║                                      
 ║ 4 - Voltar                                               ║
 ╚══════════════════════════════════════════════════════════╝
@@ -40,24 +40,19 @@ def usuarios():
                   print("_"*60)
                   nome = input('\nDigite o nome do usuario: ')
                   cpf = input('Digite o cpf do usuario : ')
-                  validacao = validar_cpf(cpf)
-                  #dividir logo
-                  if validacao:
+                  cpf = formatar_cpf(cpf)
+                  validacao_cpf = validar_cpf(cpf)
+                  if validacao_cpf:
                   
                         if cpf in usuarios:
                               print('Cpf já cadastrado. Tente novamente.')
                         else:
                               email = input('Digite um email do usuário: ')
-                              valido = False
-                              while valido==False:
-                                    if '@' in email:
-                                          valido = True
-                                    else:
-                                          print("\nFalha. Digite um email válido.")
-                                          email = input('Digite um email do usuário: ')
+                              valido = validar_email(email)
+                              
                               senha = input('Digite uma senha : ')
                               data = str(date.today())
-                              pessoa = [nome,email,senha,True,data]
+                              pessoa = [nome,valido,senha,True,data]
                               
                               usuarios[f'{cpf}']=pessoa
                               escrever_arquivo('banco/usuarios.txt',usuarios)
@@ -79,17 +74,14 @@ def usuarios():
                   usuarios = ler_arquivo('banco/usuarios.txt')
                   
                   for usuario in usuarios:
-                        if usuarios[usuario][3]:
-                              dis = 'Ativo'
-                        else:
-                              dis = 'Inativo'
+                        status = definir_status(usuarios[usuario][3])
                         print(f'''
 {list(usuarios.keys()).index(usuario)+1}°
 
 Nome  : {usuarios[usuario][0]}
 CPF   : {usuario}
 Email : {usuarios[usuario][1]}
-Status: {dis}
+Status: {status}
                               ''')
                         print("_"*60)
                   
@@ -103,20 +95,17 @@ Status: {dis}
                   print("_"*60)
                   print(
                   """
- Exclusão de Usuários 👤
+ Cancelar Usuários 👤
                   """)
                   print("_"*60)
                   usuarios = ler_arquivo('banco/usuarios.txt')
-                  cpf = input('\nDigite cpf do usuário que deseja excluir: ')
-                  ingressos = ler_arquivo('banco/ingressos.txt')
+                  cpf = input('\nDigite cpf do usuário que deseja deixar inativo: ')
+                  cpf = formatar_cpf(cpf)
                   if cpf in usuarios:
-                        if cpf in ingressos:
-                              print('\nUsuário possui ingressos comprados.')
-                        else:
-                              usuarios.pop(cpf)
-                              escrever_arquivo('banco/usuarios.txt',usuarios)
+                        usuarios[cpf][3] = False
+                        escrever_arquivo('banco/usuarios.txt',usuarios)
                         
-                        print('\nUsuário excluído!\n')
+                        print('\nUsuário cancelado!\n')
                         
                  
                   else:
@@ -135,6 +124,7 @@ Status: {dis}
                   """)
                   print("_"*60)
                   cpf = input('\nDigite o cpf do usuario que deseja editar: ')
+                  cpf 
                   usuarios = ler_arquivo('banco/usuarios.txt')
                   if cpf in usuarios:
                         nome = input('Digite o nome do usuario: ')

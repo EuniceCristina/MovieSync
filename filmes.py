@@ -3,7 +3,7 @@ from datetime import date
 from banco import *
 
 data = str(date.today())
-from config import ler_arquivo,escrever_arquivo
+from config import ler_arquivo,escrever_arquivo,definir_status
 
 def filmes():
       filmes = ler_arquivo('banco/filmes.txt')
@@ -12,20 +12,20 @@ def filmes():
             print("_"*60)
             print(
                   """
-            Módulo de Filmes 🎞️
+Módulo de Filmes 🎞️
                   """)
             print("_"*60)
             
             print("""
-      ╔══════════════════════════════════════════════════════════╗
-      ║                       MENU                               ║
-      ╠══════════════════════════════════════════════════════════╣
-      ║ 0 - Cadastrar Filmes                                     ║
-      ║ 1 - Listar Filmes em Cartaz                              ║
-      ║ 2 - Excluir Filme                                        ║
-      ║ 3 - Editar Filme                                         ║                                      
-      ║ 4 - Voltar                                               ║
-      ╚══════════════════════════════════════════════════════════╝
+╔══════════════════════════════════════════════════════════╗
+║                       MENU                               ║
+╠══════════════════════════════════════════════════════════╣
+║ 0 - Cadastrar Filmes                                     ║
+║ 1 - Listar Filmes em Cartaz                              ║
+║ 2 - Cancelar Filme                                        ║
+║ 3 - Editar Filme                                         ║                                      
+║ 4 - Voltar                                               ║
+╚══════════════════════════════════════════════════════════╝
       """)
             opcao = int(input('Digite sua ação: '))
             if opcao == 0:
@@ -52,8 +52,8 @@ Cadastro de Filmes 🎞️
                         """)
                   opc = int(input('Sua opção: '))
                   genero = generos[opc]
-                  dis = True
-                  filme = [nome,genero,dis]
+                  status = True
+                  filme = [nome,genero,status]
                   filmes[cod]=filme
                   escrever_arquivo('banco/filmes.txt',filmes)
                         
@@ -71,18 +71,14 @@ Lista de Filmes 🎞️
                   print()
                   filmes = ler_arquivo('banco/filmes.txt')
                   for filme in filmes:
-                        dis = filmes[filme][2]
-                        if dis:
-                              t = "Em cartaz"
-                        else:
-                              t = "Indísponivel"
+                        status = definir_status(filmes[filme][2])
                               
                         print(f'''
 
 Código          : {filme}         
 Nome            : {filmes[filme][0]}
 Gênero          : {filmes[filme][1]}
-Disponibilidade : {t}
+Status          : {status}
                               ''')
                         print("_"*60)
             
@@ -96,26 +92,18 @@ Disponibilidade : {t}
                   print("_"*60)
                   print(
                   """
-Exclusão de Filmes 🎞️
+Cancelamento de Filmes 🎞️
                   """)
                   print("_"*60)
                   cod = int(input('\nDigite código do filme que deseja excluir: '))
                   filmes = ler_arquivo('banco/filmes.txt')
                   sessoes = ler_arquivo('banco/sessoes.txt')
-                  exist = False
-                  try :
-                        if filmes[cod]:
-                              for sessao in sessoes:
-                                    if sessoes[sessao][0]==cod:
-                                          exist = True
-                              if exist:
-                                    print('Filme possui sessões cadastradas.')
-                              else:
-                                    filmes.pop(cod)
-                                    escrever_arquivo('banco/filmes.txt',filmes)
-                                    print('\nFilme excluído!\n')
+                  if filmes[cod]:
+                        filmes[cod][2] = False
+                        escrever_arquivo('banco/filmes.txt',filmes)
+                        print('\nFilme cancelado!\n')
                   
-                  except:
+                  else:
                         print('\nFilme não encontrado!')
                   input("Tecle <ENTER> para continuar...")
            
@@ -135,25 +123,17 @@ Edicão de Filmes 🎞️
                         print("""
                               \nEscolha o genêro do seu filme 
                               
-      0 - Drama
-      1 - Terror
-      2 - Comédia
-      3 - Ação
+0 - Drama
+1 - Terror
+2 - Comédia
+3 - Ação
                               \n
                               
                               """)
                         opc = int(input('Sua opção: '))
                         genero = generos[opc]
-                        if filmes[cod][2]:
-                              status = 'disponivel'
-                        else:
-                              status = 'não disponivel'
-                        dis = input(f'Seu filme está {status}. Deseja trocar? [S/N] :').upper()
-                        if dis=='S':
-                              dis = not filmes[cod][2]
-                        else:
-                              dis =  filmes[cod][2]
-                        nov_filme = [nome,genero,dis]
+                        status = filmes[cod][2]
+                        nov_filme = [nome,genero,status]
                         filmes[cod] = nov_filme
                         escrever_arquivo('banco/filmes.txt',filmes)
                         print('\nFilme editado com sucesso!\n')

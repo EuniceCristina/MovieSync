@@ -3,7 +3,7 @@ from datetime import date
 from banco import *
 
 data = str(date.today())
-from config import ler_arquivo,escrever_arquivo
+from config import ler_arquivo,escrever_arquivo, definir_status
 
 def salas():
       while True:
@@ -11,20 +11,20 @@ def salas():
             print("_"*60)
             print(
                   """
-            Módulo de Salas 🎞️
+Módulo de Salas 🎞️
                   """)
             print("_"*60)
             
             print("""
-      ╔══════════════════════════════════════════════════════════╗
-      ║                       MENU                               ║
-      ╠══════════════════════════════════════════════════════════╣
-      ║ 0 - Cadastrar Salas                                      ║
-      ║ 1 - Listar Salas                                         ║
-      ║ 2 - Excluir Sala                                         ║
-      ║ 3 - Editar Sala                                          ║                                      
-      ║ 4 - Voltar                                               ║
-      ╚══════════════════════════════════════════════════════════╝
+╔══════════════════════════════════════════════════════════╗
+║                       MENU                               ║
+╠══════════════════════════════════════════════════════════╣
+║ 0 - Cadastrar Salas                                      ║
+║ 1 - Listar Salas                                         ║
+║ 2 - Cancelar Sala                                        ║
+║ 3 - Editar Sala                                          ║                                      
+║ 4 - Voltar                                               ║
+╚══════════════════════════════════════════════════════════╝
       """)
             opcao = int(input('Digite sua ação: '))
             if opcao == 0:
@@ -52,7 +52,8 @@ Cadastro de Salas 🎞️
                         """)
                   opc = int(input('Sua opção: '))
                   tipo = tipos[opc]
-                  sala = [capacidade,tipo]
+                  status = True
+                  sala = [capacidade,tipo,status]
                   salas[cod]=sala
                   escrever_arquivo('banco/salas.txt',salas)
                         
@@ -68,14 +69,16 @@ Lista de Salas 🎞️
                   """)
                   print("_"*60)
                   salas = ler_arquivo('banco/salas.txt')
+                  
                   for sala in salas:
-                        
+                        status=definir_status(salas[sala][2])
                               
                         print(f'''
             
 Código          : {sala}
 Capacidade      : {salas[sala][0]}
 Tipo            : {salas[sala][1]}
+status          : {status}
                               ''')
                         print("_"*60)            
                         
@@ -89,26 +92,19 @@ Tipo            : {salas[sala][1]}
                   print("_"*60)
                   print(
                   """
-Exclusão de Salas 🎞️
+Cancelamento de Salas 🎞️
                   """)
                   print("_"*60)
-                  cod = int(input('\nDigite código do sala que deseja excluir: '))
+                  cod = int(input('\nDigite código do sala que deseja cancelar: '))
                   salas = ler_arquivo('banco/salas.txt')
                   sessoes = ler_arquivo('banco/sessoes.txt')
-                  exist = False
-                  try :
-                        if salas[cod]:
-                              for sessao in sessoes:
-                                    if sessoes[sessao][1]==cod:
-                                          exist = True
-                              if exist:
-                                    print('Sala possui sessões cadastradas.')
-                              else:
-                                    salas.pop(cod)
-                                    escrever_arquivo('banco/salas.txt',salas)
-                                    print('\nSala excluída!\n')
                   
-                  except:
+                  if salas[cod]:
+                        salas[sala][2]=False
+                        escrever_arquivo('banco/salas.txt',salas)
+                        print('\nSala cancelada!\n')
+                  
+                  else:
                         print('\nSala não encontrada!')
                   input("\nTecle <ENTER> para continuar...")
            
@@ -129,16 +125,17 @@ Edição de Salas 🎞️
                               print("""
                                     \nEscolha o tipo da sua sala
                                     
-            0 - 2d
-            1 - 3D
-            2 - IMAX
-            3 - VIP
+0 - 2d
+1 - 3D
+2 - IMAX
+3 - VIP
                                     
                                     
                                     """)
                               opc = int(input('Sua opção: '))
                               tipo = tipos[opc]
-                              nov_sala = [capacidade,tipo]
+                              status = salas[sala][2]
+                              nov_sala = [capacidade,tipo,status]
                               salas[cod] = nov_sala
                               escrever_arquivo('banco/salas.txt',salas)
                               print('\nSala editada com sucesso!\n')
