@@ -1,8 +1,5 @@
 import os
-from datetime import date
-from banco import *
 
-data = str(date.today())
 from config import ler_arquivo,escrever_arquivo, validar_cpf, formatar_cpf, validar_email, definir_status
 
 def usuarios():

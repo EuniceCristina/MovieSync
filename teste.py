@@ -1,15 +1,14 @@
-### Função Troca Valores
+##
+### Função recursiva (chama a si mesma)
 ###
-def troca_valor():
-    global a, b
-    aux = a
-    a = b
-    b = aux
+def exibe():
+ print(".", end=" ")
+ exibe()
 ###
-### Programa principal
+### Programa Principal
 ###
-a = int(input("Informe o valor de a: "))
-b = int(input("Informe o valor de b: "))
-troca_valor()
-print("Novo valor de a: ", a)
-print("Novo valor de b: ", b)
+print("Olá, pessoal!")
+print("Bem-vindos ao mundo da recursividade")
+print("Foi bom conhecer vocês")
+print("Adeeeeuuusssss.....")
+exibe()

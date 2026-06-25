@@ -51,13 +51,15 @@ Cadastro de Salas 🎞️
                         
                         """)
                   opc = int(input('Sua opção: '))
-                  tipo = tipos[opc]
-                  status = True
-                  sala = [capacidade,tipo,status]
-                  salas[cod]=sala
-                  escrever_arquivo('banco/salas.txt',salas)
-                        
-                  print('\nSala cadastrada com sucesso!\n')
+                  if 0 <= opc < 4:
+                        tipo = tipos[opc]
+                        status = salas[cod][2]
+                        nov_sala = [capacidade,tipo,status]
+                        salas[cod] = nov_sala
+                        escrever_arquivo('banco/salas.txt',salas)
+                        print('\nSala editada com sucesso!\n')
+                  else:
+                        print('Opção inválida!')
                   input("Tecle <ENTER> para continuar...")
                   
             elif opcao == 1 :
@@ -98,14 +100,18 @@ Cancelamento de Salas 🎞️
                   cod = int(input('\nDigite código do sala que deseja cancelar: '))
                   salas = ler_arquivo('banco/salas.txt')
                   sessoes = ler_arquivo('banco/sessoes.txt')
+                  exist = True
+                  for sessao in sessoes:
+                        if sessoes[sessao][1]==cod and sessoes[sessao][7]:
+                              exist=False
                   
-                  if salas[cod]:
+                  if cod in salas and exist:
                         salas[cod][2]=False
                         escrever_arquivo('banco/salas.txt',salas)
                         print('\nSala cancelada!\n')
-                  
+                              
                   else:
-                        print('\nSala não encontrada!')
+                        print('\nSala não encontrada ou associada a sessão ativa!')
                   input("\nTecle <ENTER> para continuar...")
            
             elif opcao == 3:
@@ -118,12 +124,11 @@ Edição de Salas 🎞️
                   print("_"*60)
                   cod = int(input('\nDigite o codígo do sala que deseja editar: '))
                   salas = ler_arquivo('banco/salas.txt')
-                  try:
-                        if salas[cod]:
-                              capacidade = int(input('Digite a capacidade da sala: '))
-                              tipos =['2D','3D','IMAX','VIP']
-                              print("""
-                                    \nEscolha o tipo da sua sala
+                  if cod in salas:
+                        capacidade = int(input('Digite a capacidade da sala: '))
+                        tipos =['2D','3D','IMAX','VIP']
+                        print("""
+\nEscolha o tipo da sua sala
                                     
 0 - 2d
 1 - 3D
@@ -132,18 +137,21 @@ Edição de Salas 🎞️
                                     
                                     
                                     """)
-                              opc = int(input('Sua opção: '))
+                        opc = int(input('Sua opção: '))
+                        if 0 <= opc < 4:
                               tipo = tipos[opc]
                               status = salas[cod][2]
                               nov_sala = [capacidade,tipo,status]
                               salas[cod] = nov_sala
                               escrever_arquivo('banco/salas.txt',salas)
                               print('\nSala editada com sucesso!\n')
+                        else:
+                              print('Opção inválida!')
+                                    
                               
                               
                               
-                              
-                  except:
+                  else:
                         print('\nSala não encontrada!')
                   input("\nTecle <ENTER> para continuar...")
             elif opcao == 4:
