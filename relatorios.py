@@ -142,7 +142,7 @@ Usuários com sessões futuras 👤
                               for usuario in usuarios:
                                     for ingresso in ingressos:
                                           
-                                          if ingressos[ingresso][0] ==usuario:
+                                          if ingressos[ingresso][0] ==usuario and ingressos[ingresso][4]:
                                                 
                                                 for sessao in sessoes:
                                                       if ingressos[ingresso][1]==sessao:
@@ -151,7 +151,7 @@ Usuários com sessões futuras 👤
                                                                   "%d-%m-%Y"
                                                                   ).date()
                                                             hoje = date.today()
-                                                            if data_sessao>=hoje:
+                                                            if data_sessao>=hoje and sessoes[sessao][7]:
                                                                   print(f'''
 {list(usuarios.keys()).index(usuario)+1}°                                                                        
 
@@ -285,17 +285,20 @@ Filmes com sessões futuras 🎞️
                               print("_"*60)
                               exist=False
                               for filme in filmes:
+                                    exist_filme=False
                                     for sessao in sessoes:
-                                          status = definir_status(filmes[filme][2])
+                                          
                                           if sessoes[sessao][0]==filme and sessoes[sessao][7]:
-                                                 exist=True
-                                                 print(f'''
+                                                 exist,exist_filme=True,True
+                                    if exist_filme:
+                                          status = definir_status(filmes[filme][2])
+                                          print(f'''
 Código          : {filme}         
 Nome            : {filmes[filme][0]}
 Gênero          : {filmes[filme][1]}
 Status          : {status}
                                                             ''')
-                                                 print("_"*60)
+                                          print("_"*60)
                               if not exist:
                                     print('Sem filmes com sessões futuras.')
                               input("\nTecle <ENTER> para continuar...")
@@ -421,7 +424,7 @@ Salas com sessões futuras
                               for sala in salas:
                                     for sessao in sessoes:
                                           status = definir_status(salas[sala][2])
-                                          if sessoes[sessao][0]==sala and sessoes[sessao][7]:
+                                          if sessoes[sessao][1]==sala and sessoes[sessao][7]:
                                                  exist=True
                                                  print(f'''
 Código          : {sala}

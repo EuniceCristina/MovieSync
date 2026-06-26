@@ -1,5 +1,5 @@
 import os
-
+from datetime import date
 from config import ler_arquivo,escrever_arquivo, validar_cpf, formatar_cpf, validar_email, definir_status
 
 def usuarios():
@@ -21,7 +21,7 @@ Módulo de Usuários 👤
 ║ 0 - Cadastrar Usuários                                   ║
 ║ 1 - Listar Usuários                                      ║
 ║ 2 - Cancelar Usuário                                     ║
-║ 3 - Editar Usuário                                       ║                                      
+║ 3 - Editar Usuário                                       ║
 ║ 4 - Voltar                                               ║
 ╚══════════════════════════════════════════════════════════╝
 """)
@@ -123,21 +123,13 @@ Status: {status}
                   cpf = input('\nDigite o cpf do usuario que deseja editar: ')
                   cpf = formatar_cpf(cpf)
                   usuarios = ler_arquivo('banco/usuarios.txt')
-                  if cpf in usuarios:
+                  if cpf in usuarios and usuarios[cpf][3]:
                         nome = input('Digite o nome do usuario: ')
                         email = input('Digite um email do usuário: ')
+                        email = validar_email(email)
                         senha = input('Digite uma senha : ')
-                        estado = usuarios[cpf][3]
-                        if estado:
-                              dis = 'ativo'
-                        else:
-                              dis = 'inativo'
-                        status = input(f'Seu usuário esta {dis}. Deseja mudar status? [S/N] ').upper()
-                        
-                        if status == 'S':
-                              estado = not estado
-                        
-                        nov_usuario = [nome,email,senha,estado,usuarios[cpf][4]]
+                        status = True
+                        nov_usuario = [nome,email,senha,status,usuarios[cpf][4]]
                         usuarios[f'{cpf}'] = nov_usuario
                         escrever_arquivo('banco/usuarios.txt',usuarios)
                         print('\nUsuário editado com sucesso!\n')
@@ -145,7 +137,7 @@ Status: {status}
                         
                         
                   else:
-                        print('\nUsuário não encontrado!')
+                        print('\nUsuário não encontrado ou inativo!')
                   input("Tecle <ENTER> para continuar...")
             elif opcao == 4:
                   break

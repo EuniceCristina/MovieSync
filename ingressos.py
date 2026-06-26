@@ -121,7 +121,7 @@ Cancelamento de Ingressos 🎟️
                   cod = int(input('\nDigite código do ingresso que deseja cancelar: '))
                   ingressos = ler_arquivo('banco/ingressos.txt')
                   sessoes = ler_arquivo('banco/sessoes.txt')
-                  if cod in ingressos:
+                  if cod in ingressos and ingressos[cod][3]:
                         sessoes[ingressos[cod][1]][2]= sessoes[ingressos[cod][1]][2]+1
                         ingressos[cod][3]=False
                         escrever_arquivo("banco/sessoes.txt",sessoes)
@@ -129,7 +129,7 @@ Cancelamento de Ingressos 🎟️
                         print('\nIngresso cancelado!\n')
                               
                   else:
-                        print('\nIngresso não encontrado!')
+                        print('\nIngresso não encontrado ou inativo!')
                   input("Tecle <ENTER> para continuar...")
                         
             elif opcao == 3:
@@ -142,7 +142,7 @@ Edição de Ingressos 🎟️
                   print("_"*60)
                   cod = int(input('\nDigite o codígo do ingresso que deseja editar: '))
                   ingressos = ler_arquivo('banco/ingressos.txt')
-                  if cod in ingressos:
+                  if cod in ingressos and ingressos[ingresso][3]:
                         cpf = input('\nDigite cpf do usuário: ')
                         usuarios = ler_arquivo('banco/usuarios.txt')
                         if cpf in usuarios and usuarios[cpf][3]:
@@ -172,7 +172,7 @@ Edição de Ingressos 🎟️
                                                 escrever_arquivo('banco/sessoes.txt',sessoes)
                                                 escrever_arquivo('banco/ingressos.txt',ingressos)
                                                       
-                                                print('\nIngresso cadastrado com sucesso!\n')
+                                                print('\nIngresso editado com sucesso!\n')
                                           else:
                                                 print('Não existem mais vagas para essa sessão. Tente novamente.')
                                     else:
@@ -181,7 +181,7 @@ Edição de Ingressos 🎟️
                         else:
                               print("Usuário não cadastrado ou indisponivel!Tente novamente")
                   else:
-                        print('Ingresso não encontrado. Tente novamente')
+                        print('Ingresso não encontrado ou inativo. Tente novamente')
                   input("Tecle <ENTER> para continuar...")
             elif opcao == 4:
                   break

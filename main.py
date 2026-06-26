@@ -109,6 +109,6 @@ while chave=='S':
                   input("Tecle <ENTER> para continuar...")
       
       except:
-            print('Digite apenas numeros! Tente novamente')
+            print('Digite opções válidas e tente novamente')
             input("Tecle <ENTER> para continuar...")
             

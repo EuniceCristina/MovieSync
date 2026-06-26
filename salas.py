@@ -22,7 +22,7 @@ Módulo de Salas 🎞️
 ║ 0 - Cadastrar Salas                                      ║
 ║ 1 - Listar Salas                                         ║
 ║ 2 - Cancelar Sala                                        ║
-║ 3 - Editar Sala                                          ║                                      
+║ 3 - Editar Sala                                          ║
 ║ 4 - Voltar                                               ║
 ╚══════════════════════════════════════════════════════════╝
       """)
@@ -53,11 +53,11 @@ Cadastro de Salas 🎞️
                   opc = int(input('Sua opção: '))
                   if 0 <= opc < 4:
                         tipo = tipos[opc]
-                        status = salas[cod][2]
+                        status = True
                         nov_sala = [capacidade,tipo,status]
                         salas[cod] = nov_sala
                         escrever_arquivo('banco/salas.txt',salas)
-                        print('\nSala editada com sucesso!\n')
+                        print('\nSala criada com sucesso!\n')
                   else:
                         print('Opção inválida!')
                   input("Tecle <ENTER> para continuar...")
@@ -124,7 +124,7 @@ Edição de Salas 🎞️
                   print("_"*60)
                   cod = int(input('\nDigite o codígo do sala que deseja editar: '))
                   salas = ler_arquivo('banco/salas.txt')
-                  if cod in salas:
+                  if cod in salas and salas[sala][2]:
                         capacidade = int(input('Digite a capacidade da sala: '))
                         tipos =['2D','3D','IMAX','VIP']
                         print("""
@@ -140,7 +140,7 @@ Edição de Salas 🎞️
                         opc = int(input('Sua opção: '))
                         if 0 <= opc < 4:
                               tipo = tipos[opc]
-                              status = salas[cod][2]
+                              status = True
                               nov_sala = [capacidade,tipo,status]
                               salas[cod] = nov_sala
                               escrever_arquivo('banco/salas.txt',salas)
@@ -152,7 +152,7 @@ Edição de Salas 🎞️
                               
                               
                   else:
-                        print('\nSala não encontrada!')
+                        print('\nSala não existente ou inativa!')
                   input("\nTecle <ENTER> para continuar...")
             elif opcao == 4:
                   break

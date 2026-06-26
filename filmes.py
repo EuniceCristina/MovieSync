@@ -22,8 +22,8 @@ Módulo de Filmes 🎞️
 ╠══════════════════════════════════════════════════════════╣
 ║ 0 - Cadastrar Filmes                                     ║
 ║ 1 - Listar Filmes em Cartaz                              ║
-║ 2 - Cancelar Filme                                        ║
-║ 3 - Editar Filme                                         ║                                      
+║ 2 - Cancelar Filme                                       ║
+║ 3 - Editar Filme                                         ║
 ║ 4 - Voltar                                               ║
 ╚══════════════════════════════════════════════════════════╝
       """)
@@ -98,13 +98,17 @@ Cancelamento de Filmes 🎞️
                   cod = int(input('\nDigite código do filme que deseja excluir: '))
                   filmes = ler_arquivo('banco/filmes.txt')
                   sessoes = ler_arquivo('banco/sessoes.txt')
-                  if cod in filmes:
+                  exist = False
+                  for sessao in sessoes:
+                        if sessoes[sessao][0]==cod and sessoes[sessao][7]:
+                              exist=True
+                  if cod in filmes and not exist:
                         filmes[cod][2] = False
                         escrever_arquivo('banco/filmes.txt',filmes)
                         print('\nFilme cancelado!\n')
                   
                   else:
-                        print('\nFilme não encontrado!')
+                        print('\nFilme não encontrado ou associado a sessão ativa!')
                   input("Tecle <ENTER> para continuar...")
            
             elif opcao == 3:
@@ -137,11 +141,13 @@ Edicão de Filmes 🎞️
                         filmes[cod] = nov_filme
                         escrever_arquivo('banco/filmes.txt',filmes)
                         print('\nFilme editado com sucesso!\n')
+                        input("Tecle <ENTER> para continuar...")
                               
                               
                               
                   else:
                         print('\nFilme não encontrado!')
+                  
                         input("Tecle <ENTER> para continuar...")
             elif opcao == 4:
                   break
