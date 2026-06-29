@@ -124,7 +124,7 @@ Edição de Salas 🎞️
                   print("_"*60)
                   cod = int(input('\nDigite o codígo do sala que deseja editar: '))
                   salas = ler_arquivo('banco/salas.txt')
-                  if cod in salas and salas[sala][2]:
+                  if cod in salas and salas[cod][2]:
                         capacidade = int(input('Digite a capacidade da sala: '))
                         tipos =['2D','3D','IMAX','VIP']
                         print("""

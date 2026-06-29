@@ -21,7 +21,7 @@ lista_salas = {
       1 : [12,'2D',True]
 }
 lista_ingressos = { 
-    1 : ['1',1,'meia',12.0,True,data]
+    1 : ['11736494414',1,'meia',True,data]
     }
 
 lista_sessoes = {

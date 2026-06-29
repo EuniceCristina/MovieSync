@@ -121,7 +121,7 @@ Edicão de Filmes 🎞️
                   print("_"*60)
                   cod = int(input('\nDigite o codígo do filme que deseja editar: '))
                   filmes = ler_arquivo('banco/filmes.txt')
-                  if cod in filmes:
+                  if cod in filmes  and filmes[cod][2]:
                         nome = input('Digite o nome do filme: ')
                         generos =['Drama','Terror','Comédia','Ação']
                         print("""
@@ -146,7 +146,7 @@ Edicão de Filmes 🎞️
                               
                               
                   else:
-                        print('\nFilme não encontrado!')
+                        print('\nFilme não encontrado ou inativo!')
                   
                         input("Tecle <ENTER> para continuar...")
             elif opcao == 4:

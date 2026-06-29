@@ -1,1 +1,1 @@
-{1: ['Malevola', 'drama', True]}
+{1: ['Malevola', 'drama', True], 2: ['Moana2', 'Comédia', False]}

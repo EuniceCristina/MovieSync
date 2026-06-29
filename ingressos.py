@@ -3,7 +3,7 @@ from datetime import date
 from banco import *
 
 data = str(date.today())
-from config import ler_arquivo,escrever_arquivo,definir_status
+from config import ler_arquivo,escrever_arquivo,definir_status, formatar_cpf
 
 
 def ingressos():
@@ -21,7 +21,7 @@ Módulo de Ingressos 🎟️
 ║ 0 - Cadastrar Ingressos                                  ║
 ║ 1 - Listar Ingressos                                     ║
 ║ 2 - Cancelar Ingresso                                    ║
-║ 3 - Editar Ingresso                                      ║                                      
+║ 3 - Editar Ingresso                                      ║
 ║ 4 - Voltar                                               ║
 ╚══════════════════════════════════════════════════════════╝
       """)
@@ -40,6 +40,7 @@ Cadastro de Ingressos 🎟️
                   ingressos = ler_arquivo('banco/ingressos.txt')
                   cod = len(ingressos.keys())+1
                   cpf = input('\nDigite cpf do usuário: ')
+                  cpf = formatar_cpf(cpf)
                   ingressos = ler_arquivo('banco/ingressos.txt')
                   usuarios = ler_arquivo('banco/usuarios.txt')
                   if cpf in usuarios and usuarios[cpf][3]:
@@ -92,7 +93,7 @@ Lista de Ingressos 🎟️
                   ingressos = ler_arquivo('banco/ingressos.txt')
                   usuarios = ler_arquivo('banco/usuarios.txt')
                   filmes = ler_arquivo('banco/filmes.txt')
-                  for ingresso in ingressos:
+                  for ingresso in ingressos :
                         status = definir_status(ingressos[ingresso][3])
                         print(f'''
 
@@ -142,8 +143,9 @@ Edição de Ingressos 🎟️
                   print("_"*60)
                   cod = int(input('\nDigite o codígo do ingresso que deseja editar: '))
                   ingressos = ler_arquivo('banco/ingressos.txt')
-                  if cod in ingressos and ingressos[ingresso][3]:
+                  if cod in ingressos and ingressos[cod][3]:
                         cpf = input('\nDigite cpf do usuário: ')
+                        cpf = formatar_cpf(cpf)
                         usuarios = ler_arquivo('banco/usuarios.txt')
                         if cpf in usuarios and usuarios[cpf][3]:
                               print('\nSessões disponíveis\n')
